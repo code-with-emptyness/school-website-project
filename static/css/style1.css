@@ -383,6 +383,7 @@ nav {
 
 /* Hide desktop nav, show hamburger on tablet and below */
 @media (max-width: 960px) {
+  
   .nav-links { display: none; }
   .hamburger { display: flex; }
   .mobile-menu { display: block; }
@@ -390,6 +391,7 @@ nav {
 
 /* Topbar: stack on small screens */
 @media (max-width: 600px) {
+  .topbar{ display: none;}
   .topbar-inner {
     justify-content: center;
     text-align: center;
