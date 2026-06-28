@@ -1,0 +1,162 @@
+
+
+</head>
+<body>
+
+  <!-- ── TOP INFO STRIP ── -->
+  <div class="topbar" role="complementary" aria-label="Contact information">
+    <div class="topbar-inner">
+      <div class="topbar-left">
+        <span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M22 16.92V19.92C22 20.48 21.64 20.96 21.11 21.13A20 20 0 0 1 3 3.89C3.17 3.36 3.65 3 4.21 3H7.21C7.76 3 8.25 3.38 8.38 3.91L9.38 7.91C9.51 8.44 9.29 9 8.87 9.3L7.43 10.29A16 16 0 0 0 13.71 16.57L14.7 15.13C15 14.71 15.56 14.49 16.09 14.62L20.09 15.62C20.62 15.75 21 16.24 21 16.79V16.92Z"/>
+          </svg>
+          {{ contact_config.phone1 if contact_config else "+91 70801 23456" }}
+        </span>
+        <span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          {{ contact_config.email1 if contact_config else "info@stxaviersfatehpur.org" }}
+        </span>
+      </div>
+      <div class="topbar-right">
+        <span>Mon – Fri: {{ contact_config.office_hours_mon_fri if contact_config else "8:00 AM – 4:00 PM" }} &nbsp;|&nbsp; Sat: {{ contact_config.office_hours_sat if contact_config else "8:00 AM – 1:00 PM" }}</span>
+        <a href="https://www.youtube.com/@StXaviersHighSchoolFatehpur" title="YouTube" aria-label="YouTube">
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M21.7 8.037a4.26 4.26 0 0 0-.789-1.964 2.84 2.84 0 0 0-1.984-.839c-2.767-.2-6.926-.2-6.926-.2s-4.157 0-6.928.2a2.836 2.836 0 0 0-1.983.839 4.225 4.225 0 0 0-.79 1.965 30.146 30.146 0 0 0-.2 3.206v1.5a30.12 30.12 0 0 0 .2 3.206c.094.712.364 1.39.784 1.972.604.536 1.38.837 2.187.848 1.583.151 6.731.2 6.731.2s4.161 0 6.928-.2a2.844 2.844 0 0 0 1.985-.84 4.27 4.27 0 0 0 .787-1.965 30.12 30.12 0 0 0 .2-3.206v-1.516a30.672 30.672 0 0 0-.202-3.206Zm-11.692 6.554v-5.62l5.4 2.819-5.4 2.801Z" clip-rule="evenodd"/>
+          </svg>
+        </a>
+        <a href="https://www.facebook.com/p/St-Xaviers-High-School-Fatehpur-UP-100094626789319/" title="Facebook" aria-label="Facebook">
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M13.135 6H15V3h-1.865a4.147 4.147 0 0 0-4.142 4.142V9H7v3h2v9.938h3V12h2.021l.592-3H12V6.591A.6.6 0 0 1 12.592 6h.543Z" clip-rule="evenodd"/>
+          </svg>
+        </a>
+        <a href="https://www.instagram.com/stxaviersfatehpur_official/" title="Instagram" aria-label="Instagram">
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
+            <path fill="currentColor" fill-rule="evenodd" d="M3 8a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8Zm5-3a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3H8Zm7.597 2.214a1 1 0 0 1 1-1h.01a1 1 0 1 1 0 2h-.01a1 1 0 0 1-1-1ZM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm-5 3a5 5 0 1 1 10 0 5 5 0 0 1-10 0Z" clip-rule="evenodd"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MAIN HEADER ── -->
+  <header id="site-header" role="banner">
+    <nav aria-label="Primary navigation">
+
+      <!-- Logo -->
+      <a href="{{url_for('home')}}" class="logo" aria-label="St Xavier's High School – Home">
+        <div class="logo-icon-wrap" aria-hidden="true">
+          <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="St Xavier's logo" class="logo-img">
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">St Xavier's High School</span>
+          <span class="logo-tagline">Discipline · Proactive · Justice</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <ul class="nav-links" role="list" id="nav-links">
+        <li><a href="{{url_for('home')}}" class="active" aria-current="page">Home</a></li>
+
+        <li class="has-dropdown">
+          <a href="{{url_for('about_us')}}" aria-haspopup="true" aria-expanded="false">
+            About
+            <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </a>
+          <ul class="dropdown" role="menu">
+            <li role="menuitem"><a href="#vision">Our Vision</a></li>
+            <li role="menuitem"><a href="{{url_for('about_us')}}">School History</a></li>
+            <li role="menuitem"><a href="#principal-message">Principal's Message</a></li>
+          </ul>
+        </li>
+
+        <li><a href="{{url_for('admission_page')}}">Admissions</a></li>
+
+        <li>
+          <a href="{{url_for('academics_page')}}" aria-haspopup="true" aria-expanded="false">
+            Academics
+            
+          </a>
+          
+        </li>
+
+        <li><a href="{{url_for('under_development')}}">Facilities</a></li>
+        <li><a href="{{url_for('events_and_notices')}}">Events &amp; Notices</a></li>
+        <li><a href="{{url_for('gallery_page')}}">Gallery</a></li>
+
+        <li class="has-dropdown">
+          <a href="#" aria-haspopup="true" aria-expanded="false">
+            More
+            <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </a>
+          <ul class="dropdown" role="menu">
+            
+            <li role="menuitem"><a href="{{url_for('under_development')}}">Blogs</a></li>
+            <li role="menuitem"><a href="https://drive.google.com/file/d/1rX2VcGeLmA2elIEetn1_6Ht9hJdehgRU/view?usp=drivesdk">CBSE Mandatory Disclosure</a></li>
+            <li role="menuitem"><a href="{{url_for('under_development')}}">Fee Structure</a> </li>
+          </ul>
+        </li> 
+
+
+       <li><a href="{{url_for('contact_us')}}" class="nav-cta">Contact Us</a></li>
+      </ul>
+
+      <!-- Hamburger Button (mobile only) -->
+      <button
+        class="hamburger"
+        id="hamburger-btn"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="ham-bar"></span>
+        <span class="ham-bar"></span>
+        <span class="ham-bar"></span>
+      </button>
+
+    </nav>
+
+    <!-- ── MOBILE MENU ── -->
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <ul class="mobile-nav-links" role="list">
+        <li><a href="{{url_for('home')}}" class="active">Home</a></li>
+
+        <li>
+          <a href="{{url_for('about_us')}}" aria-haspopup="true" aria-expanded="false">
+            About
+          </a>
+          
+        </li>
+
+        <li><a href="{{url_for('admission_page')}}">Admissions</a></li>
+
+        <li>
+          <a href="{{url_for('academics_page')}}">Academics</a>
+            
+            
+        </li>
+        <li>
+          <a href="{{url_for('gallery_page')}}">Gallary</a>
+        </li>
+
+      
+        <li class="mobile-has-dropdown">
+          <button class="mobile-dropdown-toggle" aria-expanded="false">
+            More
+            <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <ul class="mobile-dropdown" role="menu">
+            <li><a href="{{url_for('events_and_notices')}}">Notices &amp; Events</a></li>
+            <li><a href="{{url_for('under_development')}}">Blogs</a></li>
+            <li> <a href="#" >Fee Stucture</a></li>
+            <li> <a href="https://drive.google.com/file/d/1rX2VcGeLmA2elIEetn1_6Ht9hJdehgRU/view?usp=drivesdk" >CBSE Mandatory Disclosure</a></li>
+          </ul>
+        </li>
+
+        <li><a href="{{url_for('contact_us')}}" class="mobile-cta">Contact Us</a></li>
+      </ul>
+    </div>
+  </header>

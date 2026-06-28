@@ -1,0 +1,335 @@
+{%include "boilerplate.html"%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/events_notices.css') }}">
+{%include "navbar.html"%}
+{% macro render_img(url, alt) %}
+  {% if not url %}
+    <!-- No image provided -->
+  {% elif url.startswith('http') or url.startswith('/') or url.startswith('data:') %}
+    <img src="{{ url }}" alt="{{ alt }}" loading="lazy"/>
+  {% elif url.startswith('static/') %}
+    <img src="{{ url_for('static', filename=url[7:]) }}" alt="{{ alt }}" loading="lazy"/>
+  {% else %}
+    <img src="{{ url_for('static', filename='images/' + url) }}" alt="{{ alt }}" loading="lazy"/>
+  {% endif %}
+{% endmacro %}
+
+<body>
+
+<!-- ══════════════════════════════════════════════
+     PAGE HEADER
+══════════════════════════════════════════════ -->
+<header class="page-header" role="banner">
+  <div class="container">
+    <div class="header-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+      Stay Informed
+    </div>
+    <h1>Events &amp; <span>Notices</span></h1>
+    <p>Stay connected with the heartbeat of St. Xavier's High School, Fatehpur. Here you will find the latest school announcements, academic updates, upcoming events, cultural programmes, achievement celebrations, and every important moment that shapes our school community.</p>
+  </div>
+</header>
+
+
+<!-- ══════════════════════════════════════════════
+     LATEST NOTICES
+══════════════════════════════════════════════ -->
+<section class="notices-section" aria-labelledby="notices-heading">
+  <div class="container">
+    <span class="section-label">Announcements</span>
+    <h2 class="section-heading" id="notices-heading">Latest Notices</h2>
+    <div class="gold-line" aria-hidden="true"></div>
+    <p class="section-desc">Important communications from the school administration, teaching staff, and departments. All notices are published as they are issued and remain accessible until further notice.</p>
+  </div>
+
+  <div class="container" style="margin-top:2.5rem;">
+    <div class="notices-scroll-wrap">
+      <div class="notices-track" role="list" aria-label="Notices scroll area">
+
+        {% for notice in notices %}
+        <article class="notice-card" role="listitem">
+          <div class="notice-card-header">
+            <span class="notice-type-badge">{{ notice.category }}</span>
+            <time class="notice-date" datetime="{{ notice.date }}">{{ notice.date }}</time>
+          </div>
+          <h3>{{ notice.title }}</h3>
+          <p class="notice-target">📋 For: {{ notice.target }}</p>
+          <div class="notice-body">
+            {% for para in notice.content.split('\n') %}
+              {% if para.strip() %}
+                <p{% if not loop.first %} style="margin-top:.75rem;"{% endif %}>{{ para|safe }}</p>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <div class="notice-footer">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span class="notice-issued">Issued by: <strong>{{ notice.issued_by }}</strong></span>
+          </div>
+        </article>
+        {% else %}
+        <div style="text-align: center; padding: 3rem; width: 100%; min-width: 300px; color: var(--text-muted, #888); background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.1);">
+          <p>No notices available at this time.</p>
+        </div>
+        {% endfor %}
+
+      </div><!-- /.notices-track -->
+    </div><!-- /.notices-scroll-wrap -->
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SCHOOL EVENTS
+══════════════════════════════════════════════ -->
+<section class="events-section" aria-labelledby="events-heading">
+  <div class="container">
+    <span class="section-label">School Life</span>
+    <h2 class="section-heading" id="events-heading">School Events</h2>
+    <div class="gold-line" aria-hidden="true"></div>
+    <p class="section-desc">From cultural programmes and academic competitions to sports days and community celebrations — every event at St. Xavier's High School, Fatehpur is a testament to the vibrant, purposeful spirit of our school community.</p>
+
+    <div class="events-list" style="margin-top:4rem;" id="events-container">
+      {% for event in events[:2] %}
+      {% set has_img1 = event.image1_url and event.image1_url != 'placeholder.jpg' %}
+      {% set has_img2 = event.image2_url and event.image2_url != 'placeholder.jpg' %}
+      {% set has_video = event.video_url and event.video_thumb_url and event.video_thumb_url != 'placeholder.jpg' %}
+      {% set media_count = (1 if has_img1 else 0) + (1 if has_img2 else 0) + (1 if has_video else 0) %}
+      
+      <article class="event-block {% if media_count == 0 %}no-media{% endif %}" aria-label="{{ event.title }}">
+        {% if media_count > 0 %}
+        <!-- Desktop Gallery -->
+        <div class="event-gallery {% if media_count == 1 %}single-image{% elif media_count == 2 %}two-items{% endif %}" aria-hidden="true">
+          {% if has_img1 %}
+          <div class="img-wrap">
+            {{ render_img(event.image1_url, event.title + " Photo 1") }}
+          </div>
+          {% endif %}
+          {% if has_img2 %}
+          <div class="img-wrap">
+            {{ render_img(event.image2_url, event.title + " Photo 2") }}
+          </div>
+          {% endif %}
+          {% if has_video %}
+          <div class="img-wrap video-thumb" role="button" tabindex="0" aria-label="Watch event video" onclick="window.open('{{ event.video_url }}', '_blank')">
+            {{ render_img(event.video_thumb_url, "Video preview") }}
+            <div class="play-btn" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Mobile Gallery -->
+        <div class="event-gallery-mobile" aria-label="{{ event.title }} photos, swipe to browse">
+          {% if has_img1 %}
+          <div class="img-wrap">
+            {{ render_img(event.image1_url, "Photo 1") }}
+          </div>
+          {% endif %}
+          {% if has_img2 %}
+          <div class="img-wrap">
+            {{ render_img(event.image2_url, "Photo 2") }}
+          </div>
+          {% endif %}
+          {% if has_video %}
+          <div class="img-wrap video-thumb" role="button" tabindex="0" aria-label="Watch event video" onclick="window.open('{{ event.video_url }}', '_blank')">
+            {{ render_img(event.video_thumb_url, "Video preview") }}
+            <div class="play-btn" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          </div>
+          {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Event Info -->
+        <div class="event-info">
+          <div class="event-date-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            {{ event.date }}
+          </div>
+          <h2>{{ event.title }}</h2>
+          <p>{{ event.description }}</p>
+          <div class="event-tags">
+            {% for tag in event.tags.split(',') %}
+              {% if tag.strip() %}
+                <span class="event-tag">{{ tag.strip() }}</span>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </article>
+      {% else %}
+      <div style="text-align: center; padding: 3rem; width: 100%; color: var(--text-muted, #888); background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.1);">
+        <p>No events listed yet.</p>
+      </div>
+      {% endfor %}
+    </div><!-- /.events-list (initial) -->
+
+    <!-- Hidden Events -->
+    <div class="events-list hidden-events" id="extra-events" style="gap:5rem; flex-direction:column; margin-top:5rem;" aria-live="polite">
+      {% for event in events[2:] %}
+      {% set has_img1 = event.image1_url and event.image1_url != 'placeholder.jpg' %}
+      {% set has_img2 = event.image2_url and event.image2_url != 'placeholder.jpg' %}
+      {% set has_video = event.video_url and event.video_thumb_url and event.video_thumb_url != 'placeholder.jpg' %}
+      {% set media_count = (1 if has_img1 else 0) + (1 if has_img2 else 0) + (1 if has_video else 0) %}
+      
+      <article class="event-block {% if media_count == 0 %}no-media{% endif %}" aria-label="{{ event.title }}">
+        {% if media_count > 0 %}
+        <!-- Desktop Gallery -->
+        <div class="event-gallery {% if media_count == 1 %}single-image{% elif media_count == 2 %}two-items{% endif %}" aria-hidden="true">
+          {% if has_img1 %}
+          <div class="img-wrap">
+            {{ render_img(event.image1_url, event.title + " Photo 1") }}
+          </div>
+          {% endif %}
+          {% if has_img2 %}
+          <div class="img-wrap">
+            {{ render_img(event.image2_url, event.title + " Photo 2") }}
+          </div>
+          {% endif %}
+          {% if has_video %}
+          <div class="img-wrap video-thumb" role="button" tabindex="0" aria-label="Watch event video" onclick="window.open('{{ event.video_url }}', '_blank')">
+            {{ render_img(event.video_thumb_url, "Video preview") }}
+            <div class="play-btn" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Mobile Gallery -->
+        <div class="event-gallery-mobile" aria-label="{{ event.title }} photos, swipe to browse">
+          {% if has_img1 %}
+          <div class="img-wrap">
+            {{ render_img(event.image1_url, "Photo 1") }}
+          </div>
+          {% endif %}
+          {% if has_img2 %}
+          <div class="img-wrap">
+            {{ render_img(event.image2_url, "Photo 2") }}
+          </div>
+          {% endif %}
+          {% if has_video %}
+          <div class="img-wrap video-thumb" role="button" tabindex="0" aria-label="Watch event video" onclick="window.open('{{ event.video_url }}', '_blank')">
+            {{ render_img(event.video_thumb_url, "Video preview") }}
+            <div class="play-btn" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          </div>
+          {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Event Info -->
+        <div class="event-info">
+          <div class="event-date-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            {{ event.date }}
+          </div>
+          <h2>{{ event.title }}</h2>
+          <p>{{ event.description }}</p>
+          <div class="event-tags">
+            {% for tag in event.tags.split(',') %}
+              {% if tag.strip() %}
+                <span class="event-tag">{{ tag.strip() }}</span>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div><!-- /#extra-events -->
+
+    {% if events|length > 2 %}
+    <!-- View More Button -->
+    <div class="view-more-wrap">
+      <button class="btn-view-more" id="view-more-btn" aria-expanded="false" aria-controls="extra-events">
+        View More Events
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+    </div>
+    {% endif %}
+
+  </div><!-- /.container -->
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     ACADEMIC CALENDAR
+══════════════════════════════════════════════ -->
+<section class="calendar-section" aria-labelledby="calendar-heading">
+  <div class="container">
+    <div class="calendar-inner">
+
+      <div class="calendar-img-wrap">
+        {% if calendar and calendar.image_url %}
+          {{ render_img(calendar.image_url, "Academic calendar — St. Xaviers High School 2025–26") }}
+        {% endif %}
+      </div>
+
+      <div class="calendar-info">
+        <span class="section-label">Planning Ahead</span>
+        <h2 class="section-heading" id="calendar-heading">Academic Calendar<br/>2025–26</h2>
+        <div class="gold-line" aria-hidden="true"></div>
+        <p>Plan ahead with confidence. The St. Xavier's High School, Fatehpur academic calendar outlines all term dates, public holidays, examination periods, event days, and school closures for the full academic year. A copy is also dispatched to all registered families at the commencement of each session.</p>
+
+       
+        {% if calendar and calendar.image_url %}
+        <a href="{% if calendar.image_url.startswith('http') or calendar.image_url.startswith('/') %}{{ calendar.image_url }}{% else %}{{ url_for('static', filename='images/' + calendar.image_url) }}{% endif %}" class="btn-download" download aria-label="Download Academic Calendar PDF">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2-2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Calendar
+        </a>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ── SCRIPTS ── -->
+<script>
+  /* View More Events toggle */
+  const btn = document.getElementById('view-more-btn');
+  const extra = document.getElementById('extra-events');
+
+  btn.addEventListener('click', () => {
+    const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+
+    if (!isExpanded) {
+      extra.classList.add('revealed');
+      btn.setAttribute('aria-expanded', 'true');
+      btn.innerHTML = `
+        Collapse Events
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      `;
+      btn.classList.add('collapsed');
+      // Animate newly revealed blocks
+      requestAnimationFrame(() => {
+        extra.querySelectorAll('.event-block').forEach((el, i) => {
+          setTimeout(() => el.classList.add('visible'), i * 120);
+        });
+      });
+    } else {
+      extra.classList.remove('revealed');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.innerHTML = `
+        View More Events
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      `;
+      btn.classList.remove('collapsed');
+      extra.querySelectorAll('.event-block').forEach(el => el.classList.remove('visible'));
+    }
+  });
+
+  /* Scroll-reveal for visible events */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('#events-container .event-block').forEach(el => observer.observe(el));
+</script>
+{%include "footer.html"%}
+</body>
+</html>

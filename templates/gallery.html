@@ -1,0 +1,916 @@
+{%include "boilerplate.html"%}
+
+  <style>
+    /* =========================================================
+       CSS VARIABLES — Brand DNA
+    ========================================================= */
+    :root {
+      --navy:       #081F4D;
+      --dark:       #04142E;
+      --royal:      #123D8A;
+      --gold:       #D4AF37;
+      --light-gold: #FFF0A6;
+      --white:      #FFFFFF;
+      --text:       rgba(255,255,255,.82);
+      --muted:      rgba(255,255,255,.65);
+      --border:     rgba(212,175,55,.25);
+      --card-bg:    rgba(255,255,255,.05);
+
+      --max-w:      1200px;
+      --section-gap: 110px;
+      --radius-card: 20px;
+      --transition: .35s ease;
+    }
+
+    /* =========================================================
+       RESET & BASE
+    ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
+
+    /* =========================================================
+       UTILITIES
+    ========================================================= */
+    .container {
+      max-width: var(--max-w);
+      margin-inline: auto;
+      padding-inline: clamp(1.25rem, 5vw, 2.5rem);
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      color: var(--white);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1.2;
+      font-weight: 700;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      font-size: .95rem;
+      font-weight: 300;
+      max-width: 680px;
+      margin-top: .75rem;
+    }
+
+    .gold-divider {
+      width: 60px;
+      height: 2px;
+      background: var(--gold);
+      margin-top: 1.25rem;
+      border-radius: 2px;
+    }
+
+    /* =========================================================
+       HERO SECTION
+    ========================================================= */
+    .hero {
+      position: relative;
+      min-height: 68vh;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(4,20,46,.25) 0%,
+          rgba(4,20,46,.55) 50%,
+          rgba(8,31,77,.92) 100%),
+        url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1600&auto=format&fit=crop&q=80') center/cover no-repeat;
+    }
+
+    /* Subtle gold shimmer bar at very top */
+    .hero__bg::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 1;
+      padding-block: clamp(3rem, 8vh, 6rem);
+      width: 100%;
+    }
+
+    .hero__label {
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp .7s .1s ease forwards;
+    }
+
+    .hero__title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      color: var(--white);
+      font-weight: 700;
+      line-height: 1.1;
+      max-width: 700px;
+      opacity: 0;
+      animation: fadeUp .7s .25s ease forwards;
+    }
+
+    .hero__title span { color: var(--gold); }
+
+    .hero__sub {
+      margin-top: 1.25rem;
+      font-size: clamp(.9rem, 1.5vw, 1.05rem);
+      font-weight: 300;
+      color: var(--text);
+      max-width: 600px;
+      opacity: 0;
+      animation: fadeUp .7s .4s ease forwards;
+    }
+
+    .hero__meta {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-top: 2.5rem;
+      opacity: 0;
+      animation: fadeUp .7s .55s ease forwards;
+    }
+
+    .hero__stat {
+      text-align: center;
+    }
+
+    .hero__stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .hero__stat-label {
+      font-size: .7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: .2rem;
+    }
+
+    .hero__meta-divider {
+      width: 1px;
+      height: 48px;
+      background: var(--border);
+    }
+
+    /* =========================================================
+       PHOTO GALLERY SECTION
+    ========================================================= */
+    .photo-section {
+      padding-block: var(--section-gap);
+    }
+
+    .photo-section__head {
+      margin-bottom: 3rem;
+    }
+
+    /* Filter Tabs */
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      margin-top: 2.25rem;
+    }
+
+    .filter-btn {
+      padding: .55rem 1.4rem;
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      background: var(--card-bg);
+      transition: var(--transition);
+      backdrop-filter: blur(8px);
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      color: var(--dark);
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+
+    /* Image Grid */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 2.25rem;
+    }
+
+    .photo-item {
+      position: relative;
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #0d1f40;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .photo-item:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,.45); }
+    .photo-item:hover .photo-overlay { opacity: 1; }
+    .photo-item:hover .photo-overlay-icon { transform: translate(-50%,-50%) scale(1); }
+
+    .photo-frame {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0d1f40;
+    }
+
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(4,20,46,.85) 0%, rgba(4,20,46,.35) 60%, transparent 100%);
+      opacity: 0;
+      transition: var(--transition);
+      display: flex;
+      align-items: flex-end;
+      padding: 1.1rem;
+    }
+
+    .photo-overlay-icon {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%) scale(.7);
+      transition: var(--transition);
+    }
+
+    .photo-overlay-icon svg {
+      width: 44px; height: 44px;
+      stroke: var(--gold);
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,.5));
+    }
+
+    .photo-caption {
+      font-size: .75rem;
+      font-weight: 500;
+      color: var(--white);
+      letter-spacing: .5px;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: var(--transition);
+    }
+
+    .photo-item:hover .photo-caption {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hidden items (filtered out) */
+    .photo-item.hidden { display: none; }
+
+    /* =========================================================
+       VIDEO GALLERY SECTION
+    ========================================================= */
+    .video-section {
+      padding-block: var(--section-gap);
+      background: linear-gradient(to bottom, transparent, rgba(4,20,46,.6), transparent);
+    }
+
+    .video-section__head { margin-bottom: 3rem; }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.1rem;
+    }
+
+    .video-item {
+      position: relative;
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .video-item:hover { transform: translateY(-6px); box-shadow: 0 24px 55px rgba(0,0,0,.5); }
+    .video-item:hover .video-thumb-overlay { background: rgba(4,20,46,.5); }
+    .video-item:hover .play-btn { transform: translate(-50%,-50%) scale(1.12); }
+
+    .video-thumb {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+
+    .video-thumb-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(4,20,46,.38);
+      transition: var(--transition);
+    }
+
+    .play-btn {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 58px; height: 58px;
+      border-radius: 50%;
+      background: rgba(212,175,55,.2);
+      border: 2px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+      transition: var(--transition);
+    }
+
+    .play-btn svg { width: 22px; height: 22px; fill: var(--gold); margin-left: 4px; }
+
+    .video-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 1.1rem;
+      background: linear-gradient(to top, rgba(4,20,46,.92), transparent);
+    }
+
+    .video-title {
+      font-size: .82rem;
+      font-weight: 500;
+      color: var(--white);
+    }
+
+    .video-duration {
+      font-size: .7rem;
+      color: var(--gold);
+      margin-top: .2rem;
+    }
+
+    /* Hidden videos */
+    .video-item.hidden { display: none; }
+
+    /* Show More Button */
+    .show-more-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 2.75rem;
+    }
+
+    .btn-show-more {
+      display: inline-flex;
+      align-items: center;
+      gap: .65rem;
+      padding: .85rem 2.4rem;
+      font-size: .82rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dark);
+      background: var(--gold);
+      border-radius: 50px;
+      transition: var(--transition);
+      box-shadow: 0 6px 28px rgba(212,175,55,.25);
+    }
+
+    .btn-show-more:hover {
+      background: var(--light-gold);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(212,175,55,.35);
+    }
+
+    .btn-show-more svg { width: 16px; height: 16px; }
+    .btn-show-more.all-loaded { opacity: .45; pointer-events: none; }
+
+    /* =========================================================
+       LIGHTBOX
+    ========================================================= */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(4,20,46,.97);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s ease;
+      padding: 1.5rem;
+    }
+
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lightbox__inner {
+      position: relative;
+      max-width: 1100px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox__media {
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #0a1a35;
+    }
+
+    .lightbox__media img {
+      width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+    }
+
+    .lightbox__media iframe {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border: none;
+    }
+
+    .lightbox__caption {
+      margin-top: 1rem;
+      font-size: .82rem;
+      color: var(--muted);
+      text-align: center;
+      letter-spacing: .5px;
+    }
+
+    .lightbox__close {
+      position: fixed;
+      top: 1.5rem; right: 1.75rem;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      color: var(--white);
+    }
+
+    .lightbox__close:hover { background: rgba(212,175,55,.2); border-color: var(--gold); }
+    .lightbox__close svg { width: 18px; height: 18px; stroke: currentColor; }
+
+    .lightbox__nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      color: var(--white);
+    }
+
+    .lightbox__nav:hover { background: rgba(212,175,55,.2); border-color: var(--gold); }
+    .lightbox__nav svg { width: 18px; height: 18px; stroke: currentColor; }
+    .lightbox__nav--prev { left: 1rem; }
+    .lightbox__nav--next { right: 1rem; }
+    .lightbox__nav.hidden { display: none; }
+
+    /* =========================================================
+       FADE-IN ANIMATION
+    ========================================================= */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+    @media (max-width: 1200px) {
+      .photo-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 992px) {
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+      .video-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      :root { --section-gap: 72px; }
+      .hero__meta { gap: 1.2rem; }
+      .hero__stat-num { font-size: 1.4rem; }
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+      .filter-tabs { gap: .45rem; }
+      .filter-btn { padding: .45rem 1rem; font-size: .72rem; }
+    }
+
+    @media (max-width: 576px) {
+      .photo-grid { grid-template-columns: 1fr; }
+      .video-grid { grid-template-columns: 1fr; }
+      .hero__meta { flex-direction: column; align-items: flex-start; gap: .9rem; }
+      .hero__meta-divider { display: none; }
+      .lightbox__nav { display: none; }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+
+{%include "navbar.html"%}
+
+  <!-- =====================================================
+       HERO SECTION
+  ====================================================== -->
+  <section class="hero" aria-label="Gallery hero">
+    <div class="hero__bg" role="img" aria-label="Greenfield Academy campus overview" style="background-image: linear-gradient(to bottom, rgba(4,20,46,.25) 0%, rgba(4,20,46,.55) 50%, rgba(8,31,77,.92) 100%), url('{{ config.hero_bg_url }}');"></div>
+    <div class="container hero__content">
+      <p class="hero__label">{{ config.hero_label }}</p>
+      <h1 class="hero__title">{{ config.hero_title | safe }}</h1>
+      <p class="hero__sub">{{ config.hero_subtitle }}</p>
+      <div class="hero__meta">
+        <div class="hero__stat">
+          <div class="hero__stat-num">{{ config.stat1_num }}</div>
+          <div class="hero__stat-label">{{ config.stat1_label }}</div>
+        </div>
+        <div class="hero__meta-divider"></div>
+        <div class="hero__stat">
+          <div class="hero__stat-num">{{ config.stat2_num }}</div>
+          <div class="hero__stat-label">{{ config.stat2_label }}</div>
+        </div>
+        <div class="hero__meta-divider"></div>
+        <div class="hero__stat">
+          <div class="hero__stat-num">{{ config.stat3_num }}</div>
+          <div class="hero__stat-label">{{ config.stat3_label }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       PHOTO GALLERY SECTION
+  ====================================================== -->
+  <section class="photo-section" aria-label="Photo gallery">
+    <div class="container">
+      <div class="photo-section__head fade-in">
+        <span class="section-label">{{ config.photo_label }}</span>
+        <h2 class="section-title">{{ config.photo_title }}</h2>
+        <p class="section-subtitle">{{ config.photo_subtitle }}</p>
+        <div class="gold-divider"></div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs fade-in" role="tablist" aria-label="Photo categories">
+        <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">All</button>
+        {% for cat in categories %}
+        <button class="filter-btn" data-filter="{{ cat.slug }}" role="tab" aria-selected="false">{{ cat.name }}</button>
+        {% endfor %}
+      </div>
+
+      <!-- Image Grid -->
+      <div class="photo-grid" id="photoGrid" aria-label="Gallery grid">
+        {% for photo in photos %}
+        <div class="photo-item fade-in" data-category="{{ photo.category }}" data-caption="{{ photo.caption }}" tabindex="0" role="button" aria-label="View: {{ photo.caption }}">
+          <div class="photo-frame">
+            <img src="{{ url_for('static', filename='images/' + photo.img_url) if ('/' in photo.img_url and not photo.img_url.startswith('http') and not photo.img_url.startswith('/')) else photo.img_url }}" alt="{{ photo.caption }}" loading="lazy" />
+          </div>
+          <div class="photo-overlay">
+            <div class="photo-overlay-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+              </svg>
+            </div>
+            <span class="photo-caption">{{ photo.caption }}</span>
+          </div>
+        </div>
+        {% endfor %}
+      </div><!-- /photo-grid -->
+
+      <!-- Show More Photos Button -->
+      <div class="show-more-wrap" id="photoShowMoreWrap">
+        <button class="btn-show-more" id="showMorePhotosBtn" aria-label="Load more photos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          Show More Photos
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================================================
+       VIDEO GALLERY SECTION
+  ====================================================== -->
+  <section class="video-section" aria-label="Video gallery">
+    <div class="container">
+      <div class="video-section__head fade-in">
+        <span class="section-label">{{ config.video_label }}</span>
+        <h2 class="section-title">{{ config.video_title }}</h2>
+        <p class="section-subtitle">{{ config.video_subtitle }}</p>
+        <div class="gold-divider"></div>
+      </div>
+
+      <div class="video-grid" id="videoGrid">
+        {% for video in videos %}
+        <div class="video-item fade-in {% if loop.index0 >= 6 %}hidden{% endif %}" data-yt-id="{{ video.yt_id }}" data-title="{{ video.title }}" data-duration="{{ video.duration }}">
+          <img class="video-thumb" src="{{ url_for('static', filename='images/' + video.thumbnail_url) if ('/' in video.thumbnail_url and not video.thumbnail_url.startswith('http') and not video.thumbnail_url.startswith('/')) else video.thumbnail_url }}" alt="{{ video.title }} thumbnail" loading="lazy" />
+          <div class="video-thumb-overlay"></div>
+          <div class="play-btn" aria-label="Play video">
+            <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+          </div>
+          <div class="video-info">
+            <div class="video-title">{{ video.title }}</div>
+            <div class="video-duration">{{ video.duration }}</div>
+          </div>
+        </div>
+        {% endfor %}
+      </div><!-- /video-grid -->
+
+      <!-- Show More Button -->
+      <div class="show-more-wrap">
+        <button class="btn-show-more" id="showMoreBtn" aria-label="Load more videos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          Show More Videos
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       LIGHTBOX
+  ====================================================== -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Media viewer" aria-hidden="true">
+    <button class="lightbox__close" id="lightboxClose" aria-label="Close viewer">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <button class="lightbox__nav lightbox__nav--prev hidden" id="lbPrev" aria-label="Previous image">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+    <button class="lightbox__nav lightbox__nav--next hidden" id="lbNext" aria-label="Next image">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+    <div class="lightbox__inner">
+      <div class="lightbox__media" id="lightboxMedia"></div>
+      <p class="lightbox__caption" id="lightboxCaption"></p>
+    </div>
+  </div>
+
+
+  {%include "footer.html"%}
+  <!-- =====================================================
+       JAVASCRIPT
+  ====================================================== -->
+  <script>
+    (() => {
+      'use strict';
+
+      /* ── Intersection Observer: fade-in ── */
+      const fadeEls = document.querySelectorAll('.fade-in');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      fadeEls.forEach(el => io.observe(el));
+
+      /* ── Photo Show More ── */
+      const INITIAL_PHOTO_LIMIT = 6;
+      const photoItems        = document.querySelectorAll('.photo-item');
+      const showMorePhotosBtn = document.getElementById('showMorePhotosBtn');
+      const photoShowMoreWrap = document.getElementById('photoShowMoreWrap');
+      let   photosExpanded    = false;
+
+      // Hide extra photos on init
+      photoItems.forEach((item, idx) => {
+        if (idx >= INITIAL_PHOTO_LIMIT) {
+          item.classList.add('hidden');
+          item.dataset.extra = 'true';
+        }
+      });
+
+      function updatePhotoShowMore(activeFilter) {
+        // If expanded, all category-matching photos visible — hide the button
+        if (photosExpanded) {
+          photoShowMoreWrap.style.display = 'none';
+          return;
+        }
+        // Count visible (not filter-hidden, not extra-hidden) items vs total matching
+        const matching = Array.from(photoItems).filter(p =>
+          activeFilter === 'all' || p.dataset.category === activeFilter
+        );
+        const hidden = matching.filter(p => p.classList.contains('hidden'));
+        photoShowMoreWrap.style.display = hidden.length > 0 ? 'flex' : 'none';
+      }
+
+      showMorePhotosBtn.addEventListener('click', () => {
+        photosExpanded = true;
+        photoItems.forEach(item => {
+          if (item.dataset.extra === 'true') {
+            item.classList.remove('hidden');
+            requestAnimationFrame(() => requestAnimationFrame(() => item.classList.add('visible')));
+          }
+        });
+        photoShowMoreWrap.style.display = 'none';
+      });
+
+      /* ── Photo Filter ── */
+      const filterBtns   = document.querySelectorAll('.filter-btn');
+      let   activeFilter = 'all';
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+
+          activeFilter = btn.dataset.filter;
+
+          photoItems.forEach((item, idx) => {
+            const matchesCategory = activeFilter === 'all' || item.dataset.category === activeFilter;
+            // If not expanded, extra photos should stay hidden even if category matches
+            const isExtra = item.dataset.extra === 'true';
+            const show = matchesCategory && (!isExtra || photosExpanded);
+            item.classList.toggle('hidden', !show);
+            if (show) {
+              item.classList.remove('visible');
+              requestAnimationFrame(() => requestAnimationFrame(() => item.classList.add('visible')));
+            }
+          });
+
+          updatePhotoShowMore(activeFilter);
+        });
+      });
+
+      /* Keyboard accessibility for filter buttons */
+      filterBtns.forEach(btn => {
+        btn.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); } });
+      });
+
+      // Init show-more state
+      updatePhotoShowMore('all');
+
+      /* ── Lightbox ── */
+      const lightbox   = document.getElementById('lightbox');
+      const lbMedia    = document.getElementById('lightboxMedia');
+      const lbCaption  = document.getElementById('lightboxCaption');
+      const lbClose    = document.getElementById('lightboxClose');
+      const lbPrev     = document.getElementById('lbPrev');
+      const lbNext     = document.getElementById('lbNext');
+
+      let currentPhotoIndex = -1;
+      let visiblePhotos     = [];
+
+      function openPhotoLightbox(item) {
+        visiblePhotos = Array.from(photoItems).filter(p => !p.classList.contains('hidden'));
+        currentPhotoIndex = visiblePhotos.indexOf(item);
+        renderPhotoLightbox();
+        openLightbox();
+      }
+
+      function renderPhotoLightbox() {
+        const item   = visiblePhotos[currentPhotoIndex];
+        const imgSrc = item.querySelector('img').src;
+        const cap    = item.dataset.caption || '';
+        lbMedia.innerHTML = `<img src="${imgSrc}" alt="${cap}" />`;
+        lbCaption.textContent = cap;
+        lbPrev.classList.toggle('hidden', currentPhotoIndex === 0);
+        lbNext.classList.toggle('hidden', currentPhotoIndex === visiblePhotos.length - 1);
+      }
+
+      function openVideoLightbox(ytId, title) {
+        lbMedia.innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0" allowfullscreen allow="autoplay"></iframe>`;
+        lbCaption.textContent = title;
+        lbPrev.classList.add('hidden');
+        lbNext.classList.add('hidden');
+        openLightbox();
+      }
+
+      function openLightbox() {
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        lbClose.focus();
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove('open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        setTimeout(() => { lbMedia.innerHTML = ''; }, 300);
+      }
+
+      lbClose.addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+      lbPrev.addEventListener('click', () => {
+        if (currentPhotoIndex > 0) { currentPhotoIndex--; renderPhotoLightbox(); }
+      });
+
+      lbNext.addEventListener('click', () => {
+        if (currentPhotoIndex < visiblePhotos.length - 1) { currentPhotoIndex++; renderPhotoLightbox(); }
+      });
+
+      document.addEventListener('keydown', e => {
+        if (!lightbox.classList.contains('open')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft' && currentPhotoIndex > 0) { currentPhotoIndex--; renderPhotoLightbox(); }
+        if (e.key === 'ArrowRight' && currentPhotoIndex < visiblePhotos.length - 1) { currentPhotoIndex++; renderPhotoLightbox(); }
+      });
+
+      /* Attach click/keydown to photo items */
+      photoItems.forEach(item => {
+        const activate = () => openPhotoLightbox(item);
+        item.addEventListener('click', activate);
+        item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); } });
+      });
+
+      /* Attach click to video items */
+      document.querySelectorAll('.video-item').forEach(item => {
+        item.addEventListener('click', () => {
+          openVideoLightbox(item.dataset.ytId, item.dataset.title);
+          currentPhotoIndex = -1;
+        });
+      });
+
+      /* ── Show More Videos ── */
+      const showMoreBtn    = document.getElementById('showMoreBtn');
+      const hiddenVideos   = document.querySelectorAll('.video-item.hidden');
+      let   videosRevealed = false;
+
+      showMoreBtn.addEventListener('click', () => {
+        if (videosRevealed) return;
+        hiddenVideos.forEach(v => {
+          v.classList.remove('hidden');
+          requestAnimationFrame(() => requestAnimationFrame(() => v.classList.add('visible')));
+        });
+        videosRevealed = true;
+        showMoreBtn.classList.add('all-loaded');
+        showMoreBtn.textContent = 'All Videos Loaded';
+      });
+
+    })();
+  </script>
+
+</body>
+</html>

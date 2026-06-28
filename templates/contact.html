@@ -1,0 +1,315 @@
+{%include "boilerplate.html"%}
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+</head>
+{%include "navbar.html"%}
+<body>
+
+  <!-- ======= HEADER / NAVIGATION ======= -->
+  
+  <main class="contact-page">
+
+    <!-- ======= CONTACT HERO ======= -->
+    <section class="contact-hero">
+      <div class="hero-content">
+        <p class="section-label animate-fade">GET IN TOUCH</p>
+        <h1 class="animate-slide">Contact Us</h1>
+        <p class="hero-subtitle animate-fade">We'd love to hear from you. Reach out to us for admissions, enquiries, or any school-related information.</p>
+      </div>
+    </section>
+
+    <!-- ======= CONTACT INFORMATION ======= -->
+    <section class="contact-information">
+      <p class="section-label">REACH US</p>
+      <h2>Contact Information</h2>
+      <p class="section-subtitle">Multiple ways to get in touch with St Xavier High School</p>
+
+      <div class="contact-info-cards">
+
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="fas fa-map-marked-alt"></i>
+          </div>
+          <h3>Our Address</h3>
+          <p>{{ contact_config.address_line1 }}</p>
+          <p>{{ contact_config.address_line2 }}</p>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="fas fa-phone-volume"></i>
+          </div>
+          <h3>Phone Number</h3>
+          <a href="tel:{{ contact_config.phone1.replace(' ', '') }}">{{ contact_config.phone1 }}</a>
+          <a href="tel:{{ contact_config.phone2.replace(' ', '') }}">{{ contact_config.phone2 }}</a>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="fas fa-envelope-open-text"></i>
+          </div>
+          <h3>Email Address</h3>
+          <a href="mailto:{{ contact_config.email1 }}">{{ contact_config.email1 }}</a>
+          <a href="mailto:{{ contact_config.email2 }}">{{ contact_config.email2 }}</a>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="fab fa-whatsapp"></i>
+          </div>
+          <h3>WhatsApp</h3>
+          <a href="https://wa.me/{{ contact_config.whatsapp.replace(' ', '').replace('+', '') }}" target="_blank">{{ contact_config.whatsapp }}</a>
+          <p>Chat with us directly</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======= CONTACT FORM ======= -->
+    <section class="contact-form-section">
+      <div class="form-wrapper">
+
+        <div class="form-intro">
+          <p class="section-label">WRITE TO US</p>
+          <h2>Send Us a Message</h2>
+          <p>Fill out the form and our administrative team will get back to you within 24 hours.</p>
+        </div>
+
+        <form class="contact-form" action="" method="POST" id="contactForm">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="first-name">First Name</label>
+              <input type="text" id="first-name" name="first_name" placeholder="Enter your first name" required>
+            </div>
+            <div class="form-group">
+              <label for="last-name">Last Name</label>
+              <input type="text" id="last-name" name="last_name" placeholder="Enter your last name" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" placeholder="Enter your phone number">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <select id="subject" name="subject" required>
+              <option value="" disabled selected>Select a subject</option>
+              <option value="admissions">Admissions Enquiry</option>
+              <option value="academics">Academics</option>
+              <option value="facilities">Facilities</option>
+              <option value="fees">Fee Structure</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Your Message</label>
+            <textarea id="message" name="message" rows="6" placeholder="Write your message here..." required></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            <span>Send Message</span>
+            <i class="fas fa-paper-plane"></i>
+          </button>
+
+        </form>
+
+      </div>
+    </section>
+
+    <!-- ======= SCHOOL TIMING ======= -->
+    <section class="school-timing">
+      <p class="section-label">SCHEDULE</p>
+      <h2>School Timings</h2>
+      <p class="section-subtitle">Plan your visit or call accordingly</p>
+
+      <div class="timing-cards">
+
+        <div class="timing-card">
+          <div class="timing-header">
+            <i class="far fa-building"></i>
+            <h3>Office Hours</h3>
+          </div>
+          <ul>
+            <li>
+              <span class="day">Monday – Friday</span>
+              <span class="time">{{ contact_config.office_hours_mon_fri }}</span>
+            </li>
+            <li>
+              <span class="day">Saturday</span>
+              <span class="time">{{ contact_config.office_hours_sat }}</span>
+            </li>
+            <li>
+              <span class="day">Sunday</span>
+              <span class="time {% if contact_config.office_hours_sun.lower() == 'closed' %}closed{% endif %}">{{ contact_config.office_hours_sun }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="timing-card">
+          <div class="timing-header">
+            <i class="far fa-clock"></i>
+            <h3>School Hours</h3>
+          </div>
+          <ul>
+            <li>
+              <span class="day">Primary (I – V)</span>
+              <span class="time">{{ contact_config.school_hours_primary }}</span>
+            </li>
+            <li>
+              <span class="day">Middle (VI – VIII)</span>
+              <span class="time">{{ contact_config.school_hours_middle }}</span>
+            </li>
+            <li>
+              <span class="day">Senior (IX – XII)</span>
+              <span class="time">{{ contact_config.school_hours_senior }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="timing-card">
+          <div class="timing-header">
+            <i class="far fa-user"></i>
+            <h3>Admission Office</h3>
+          </div>
+          <ul>
+            <li>
+              <span class="day">Monday – Saturday</span>
+              <span class="time">{{ contact_config.admission_hours_mon_sat }}</span>
+            </li>
+            <li>
+              <span class="day">Sunday</span>
+              <span class="time {% if contact_config.admission_hours_sun.lower() == 'closed' %}closed{% endif %}">{{ contact_config.admission_hours_sun }}</span>
+            </li>
+          </ul>
+          <p class="timing-note">{{ contact_config.admission_hours_note }}</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======= GOOGLE MAP ======= -->
+    <section class="map-section">
+      <p class="section-label">FIND US</p>
+      <h2>Our Location</h2>
+      <p class="section-subtitle">Visit us at our campus in Fatehpur, Uttar Pradesh</p>
+
+      <div class="map-container">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1066.0361159344984!2d80.80207993057698!3d25.946448613521582!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399c82af1b5817b5%3A0x6d40c6b75cf5e160!2sSt%20Xavier&#39;s%20College!5e0!3m2!1sen!2sin!4v1782464149628!5m2!1sen!2sin"
+          width="100%"
+          height="450"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          title="St Xavier's College Location">
+        </iframe>
+      </div>
+
+      <div class="map-directions">
+        <a href="https://maps.google.com/?q=St.+Xavier's+College" target="_blank" class="directions-btn">
+          <span>Get Directions</span>
+          <i class="fas fa-directions"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- ======= FAQ SECTION ======= -->
+    <section class="faq-section">
+      <p class="section-label">COMMON QUESTIONS</p>
+      <h2>Frequently Asked Questions</h2>
+      <p class="section-subtitle">Find quick answers to the most common questions we receive</p>
+
+      <div class="faq-list">
+        {% for faq in faqs %}
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>{{ faq.question }}</span>
+            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+          </button>
+          <div class="faq-answer">
+            <p>{{ faq.answer }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+  </main>
+
+ 
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // FAQ functionality
+      const faqQuestions = document.querySelectorAll('.faq-question');
+      faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+          const item = question.parentElement;
+          const isExpanded = question.getAttribute('aria-expanded') === 'true';
+          
+          // Close other FAQ items
+          document.querySelectorAll('.faq-item').forEach(otherItem => {
+            if (otherItem !== item) {
+              otherItem.classList.remove('active');
+              otherItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+              const otherIcon = otherItem.querySelector('.faq-icon i');
+              if (otherIcon) {
+                otherIcon.className = 'fas fa-plus';
+              }
+            }
+          });
+          
+          // Toggle current
+          item.classList.toggle('active');
+          question.setAttribute('aria-expanded', !isExpanded);
+          const icon = question.querySelector('.faq-icon i');
+          if (icon) {
+            icon.className = isExpanded ? 'fas fa-plus' : 'fas fa-minus';
+          }
+        });
+      });
+
+      // AJAX Form Submission
+      const contactForm = document.getElementById('contactForm');
+      if (contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+          event.preventDefault();
+          const formData = new FormData(contactForm);
+          
+          fetch('/contact-us', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert('Message sent successfully!');
+              contactForm.reset();
+            } else {
+              alert('Error: ' + (data.error || 'Unknown error occurred.'));
+            }
+          })
+          .catch(err => {
+            console.error('Submission error:', err);
+            alert('There was an error sending the message.');
+          });
+        });
+      }
+    });
+  </script>
+  {%include "footer.html"%}
+</body>
+</html>

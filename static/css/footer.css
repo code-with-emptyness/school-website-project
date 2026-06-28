@@ -1,0 +1,210 @@
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+
+    background:
+    linear-gradient(
+        180deg,
+        #04142e,
+        #020b1a
+    );
+
+    padding-top:90px;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+/* Decorative Glow */
+
+.footer::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:350px;
+    height:350px;
+
+    top:-150px;
+    left:-100px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(212,175,55,.08),
+        transparent 70%
+    );
+}
+
+/* Content */
+
+.footer-container{
+
+    max-width:900px;
+
+    margin:auto;
+
+    text-align:center;
+
+    padding:0 20px;
+}
+
+.footer-logo{
+
+    color:#fff;
+
+    font-size:2.8rem;
+
+    font-family:"Playfair Display", serif;
+
+    margin-bottom:15px;
+}
+
+.footer-tagline{
+
+    color:rgba(255,255,255,.75);
+
+    font-size:1rem;
+
+    margin-bottom:40px;
+
+    letter-spacing:.5px;
+}
+
+/* Navigation */
+
+.footer-nav{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:35px;
+
+    flex-wrap:wrap;
+}
+
+.footer-nav a{
+
+    color:#ffffff;
+
+    text-decoration:none;
+
+    transition:.3s ease;
+
+    position:relative;
+}
+
+.footer-nav a:hover{
+
+    color:#d4af37;
+}
+
+.footer-nav a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-5px;
+
+    width:0;
+
+    height:1px;
+
+    background:#d4af37;
+
+    transition:.3s ease;
+}
+
+.footer-nav a:hover::after{
+
+    width:100%;
+}
+
+/* Divider */
+
+.footer-divider{
+
+    width:120px;
+    height:1px;
+
+    background:#d4af37;
+
+    margin:45px auto;
+}
+
+/* Contact */
+
+.footer-contact{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:40px;
+
+    flex-wrap:wrap;
+
+    color:rgba(255,255,255,.8);
+
+    margin-bottom:60px;
+}
+
+.footer-contact p{
+
+    font-size:.95rem;
+}
+
+/* Bottom Bar */
+
+.copyright{
+
+    border-top:
+    1px solid rgba(212,175,55,.15);
+
+    text-align:center;
+
+    padding:25px 20px;
+
+    color:rgba(255,255,255,.55);
+
+    font-size:.9rem;
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+    .footer{
+
+        padding-top:70px;
+    }
+
+    .footer-logo{
+
+        font-size:2rem;
+    }
+
+    .footer-nav{
+
+        gap:20px;
+    }
+
+    .footer-contact{
+
+        flex-direction:column;
+
+        gap:15px;
+    }
+}
+.footer{
+    border-top:1px solid rgba(212,175,55,.25);
+}

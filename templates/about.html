@@ -1,0 +1,178 @@
+{%include "boilerplate.html"%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+{%include "navbar.html"%}
+
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">{{ about_config.hero_eyebrow }}</p>
+      <h1>{{ about_config.hero_heading }}</h1>
+      <p class="lede">{{ about_config.hero_description }}</p>
+    </div>
+  </section>
+
+  <!-- WHO WE ARE -->
+  <section>
+    <div class="wrap split">
+      <div class="copy">
+        <p class="eyebrow">{{ about_config.who_eyebrow }}</p>
+        <h2>{{ about_config.who_heading }}</h2>
+        <hr class="divider">
+        <p>{{ about_config.who_p1 }}</p>
+        <p>{{ about_config.who_p2 }}</p>
+      </div>
+      <div class="media">
+        <div class="media-frame">
+          <span class="corner tl"></span>
+          <img src="{{ url_for('static', filename='images/' + about_config.who_image_url) if about_config.who_image_url else url_for('static', filename='images/building.jpg') }}" alt="Students and faculty at our school">
+          <span class="corner br"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHOOL HISTORY -->
+  <section class="tone-dark">
+    <div class="wrap split reverse">
+      <div class="copy">
+        <p class="eyebrow">{{ about_config.history_eyebrow }}</p>
+        <h2>{{ about_config.history_heading }}</h2>
+        <hr class="divider">
+        <p>{{ about_config.history_p1 }}</p>
+        <p>{{ about_config.history_p2 }}</p>
+      </div>
+      <div class="media">
+        <div class="media-frame">
+          <span class="corner tl"></span>
+          <img src="{{ url_for('static', filename='images/' + about_config.history_image_url) if about_config.history_image_url else url_for('static', filename='images/placeholder.jpg') }}" alt="Historic moment from our school's founding">
+          <span class="corner br"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISION & MISSION -->
+  <section>
+    <div class="wrap">
+      <p class="eyebrow">{{ about_config.vm_eyebrow }}</p>
+      <h2>{{ about_config.vm_heading }}</h2>
+      <hr class="divider">
+
+      <div class="vm-grid">
+        <div class="block">
+          <h3>{{ about_config.vm_vision_title }}</h3>
+          <p>{{ about_config.vm_vision_desc }}</p>
+        </div>
+        <div class="block">
+          <h3>{{ about_config.vm_mission_title }}</h3>
+          <ul class="mission-list">
+            {% for bullet in about_config.vm_mission_bullets.split('\n') %}
+              {% if bullet.strip() %}
+                <li>{{ bullet.strip() }}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANAGEMENT -->
+  <section class="tone-dark">
+    <div class="wrap split">
+      <div class="copy">
+        <p class="eyebrow">{{ about_config.mgmt_eyebrow }}</p>
+        <h2>{{ about_config.mgmt_heading }}</h2>
+        <hr class="divider">
+        <p>{{ about_config.mgmt_p1 }}</p>
+        <p>{{ about_config.mgmt_p2 }}</p>
+      </div>
+      <div class="media">
+        <div class="media-frame">
+          <span class="corner tl"></span>
+          <img src="{{ url_for('static', filename='images/' + about_config.mgmt_image_url) if about_config.mgmt_image_url else url_for('static', filename='images/placeholder.jpg') }}" alt="School management team">
+          <span class="corner br"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINCIPAL'S MESSAGE -->
+  <section>
+    <div class="wrap">
+      <p class="eyebrow" style="text-align:center;">{{ about_config.principal_eyebrow }}</p>
+      <div class="message-block">
+        <div class="media">
+          <div class="media-frame">
+            <span class="corner tl"></span>
+            <img src="{{ url_for('static', filename='images/' + about_config.principal_image_url) if about_config.principal_image_url else url_for('static', filename='images/placeholder.jpg') }}" alt="Portrait of the Principal">
+            <span class="corner br"></span>
+          </div>
+        </div>
+        <div class="copy">
+          <span class="quote-mark">&ldquo;</span>
+          <h2 style="font-size:2.2rem;">{{ about_config.principal_heading }}</h2>
+          <p>{{ about_config.principal_p1 }}</p>
+          <p>{{ about_config.principal_p2 }}</p>
+          <p>{{ about_config.principal_p3 }}</p>
+          <div class="signature">
+            <span style="color:var(--muted); font-family:'Poppins',sans-serif; font-size:.95rem;">Best Wishes,</span>
+            <span class="name">{{ about_config.principal_signature_name }}</span>
+            <span class="role">{{ about_config.principal_signature_role }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUR VALUES -->
+  <section class="tone-dark full-band">
+    <div class="wrap">
+      <p class="eyebrow">Our Values</p>
+      <h2>Values that define us</h2>
+      <hr class="divider" style="margin-left:auto;margin-right:auto;">
+      <p class="lede" style="color:var(--text); font-size:1.05rem;">The principles that shape every classroom, every decision, and every student we send into the world.</p>
+
+      <div class="cards cols-5" style="text-align:left;">
+        {% for val in about_values %}
+        <div class="card">
+          {{ val.icon_svg | safe }}
+          <h3>{{ val.title }}</h3>
+          <p>{{ val.description }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section>
+    <div class="wrap">
+      <p class="eyebrow">Achievements</p>
+      <h2>Milestones we're proud of</h2>
+      <hr class="divider">
+      <p>A record built year over year, across the classroom, the field, and the wider community.</p>
+
+      <ul class="achv-list">
+        {% for ach in about_achievements %}
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 6L9 17l-5-5"/></svg>
+          <span>{{ ach.text }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <div class="full-image">
+        <img src="{{ url_for('static', filename='images/' + about_config.achievements_banner_url) if about_config.achievements_banner_url else url_for('static', filename='images/placeholder.jpg') }}" alt="Students celebrating an achievement">
+      </div>
+    </div>
+  </section>
+
+  
+{%include "footer.html"%}
+<script src="{{ url_for('static', filename='js/script1.js') }}"></script>
+</body>
+</html>

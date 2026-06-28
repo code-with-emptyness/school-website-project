@@ -1,0 +1,1149 @@
+{%include "boilerplate.html"%}
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #081F4D;
+      --dark:      #04142E;
+      --royal:     #123D8A;
+      --gold:      #D4AF37;
+      --light-gold:#FFF0A6;
+      --white:     #FFFFFF;
+      --text:      rgba(255,255,255,.82);
+      --muted:     rgba(255,255,255,.60);
+      --border:    rgba(212,175,55,.22);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── UTILITIES ─────────────────────────────────── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+    .label {
+      display: inline-block;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: 4px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .section-heading {
+      font-family: 'Playfair Display', serif;
+      color: var(--white);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .gold-line {
+      width: 56px;
+      height: 2px;
+      background: var(--gold);
+      margin: 1.5rem 0 1.8rem;
+    }
+
+    .gold-line.center { margin-left: auto; margin-right: auto; }
+
+    section { padding: 100px 0; }
+
+    /* ── HERO ───────────────────────────────────────── */
+    .hero {
+      min-height: 72vh;
+      background: linear-gradient(135deg, var(--dark) 0%, #0b2860 50%, var(--royal) 100%);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 120px 0 100px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 80% 50%, rgba(18,61,138,.55) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 10% 80%, rgba(212,175,55,.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Decorative corner ornament */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -1px; right: -1px;
+      width: 320px; height: 320px;
+      border-top: 1px solid rgba(212,175,55,.18);
+      border-right: 1px solid rgba(212,175,55,.18);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+    }
+
+    .hero-inner .label { font-size: .75rem; }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      color: var(--white);
+      font-size: clamp(2.6rem, 6vw, 4.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-title span { color: var(--gold); }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin-bottom: 2.8rem;
+      font-weight: 300;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      background: var(--gold);
+      color: var(--dark);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: .88rem;
+      letter-spacing: .5px;
+      padding: .85rem 2rem;
+      border-radius: 4px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background .25s, transform .2s;
+    }
+    .btn-primary:hover { background: var(--light-gold); transform: translateY(-2px); }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      background: transparent;
+      color: var(--white);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      font-size: .88rem;
+      padding: .85rem 2rem;
+      border-radius: 4px;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,.3);
+      cursor: pointer;
+      transition: border-color .25s, color .25s, transform .2s;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+    /* ── OVERVIEW STRIP ─────────────────────────────── */
+    .overview {
+      background: var(--dark);
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .overview-text p {
+      color: var(--muted);
+      font-size: .96rem;
+      margin-bottom: 1rem;
+    }
+
+    .info-row {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+   
+    .info-item strong {
+    display: block;
+    font-family: 'Poppins', serif;
+    font-size: 3.5rem;
+    color: var(--gold);
+    font-weight: 600;
+    }
+    .info-item span { font-size: .82rem; color: var(--muted); letter-spacing: .5px; }
+
+    .overview-hours {
+      border-left: 1px solid var(--border);
+      padding-left: 3rem;
+    }
+
+    .hours-block {
+      margin-top: 1.2rem;
+      padding: 1.6rem 2rem;
+      background: rgba(255,255,255,.035);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .hours-block .days {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: .4rem;
+    }
+
+    .hours-block .time {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      color: var(--gold);
+    }
+
+    .hours-note {
+      font-size: .8rem;
+      color: var(--muted);
+      margin-top: 1rem;
+      font-style: italic;
+    }
+
+    /* ── PROCESS ────────────────────────────────────── */
+    .process { background: var(--navy); }
+
+    .process-intro {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 5rem;
+    }
+
+    .process-intro p { color: var(--muted); font-size: .96rem; }
+
+    .steps-list {
+      max-width: 820px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* Vertical connector */
+    .steps-list::before {
+      content: '';
+      position: absolute;
+      left: 28px;
+      top: 24px;
+      bottom: 24px;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .step {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 2.8rem;
+      position: relative;
+      animation: fadeUp .5s ease both;
+    }
+
+    .step:last-child { margin-bottom: 0; }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--dark);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--gold);
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-body { padding-top: .6rem; }
+    .step-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--white);
+      margin-bottom: .4rem;
+    }
+    .step-body p { color: var(--muted); font-size: .9rem; }
+
+    /* ── ADMISSION TEST ──────────────────────────────── */
+    .test-section {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .test-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .test-body p {
+      color: var(--muted);
+      font-size: .94rem;
+      margin-bottom: 1rem;
+    }
+
+    .note-box {
+      margin-top: 2rem;
+      padding: 1.4rem 1.8rem;
+      border-left: 3px solid var(--gold);
+      background: rgba(212,175,55,.06);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .note-box p { margin: 0; font-size: .88rem; color: var(--text); }
+    .note-box strong { color: var(--gold); }
+
+    
+    .test-subjects h4 {
+      font-family: 'Playfair Display', serif;
+      color: var(--white);
+      font-size: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .subject-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: .9rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .9rem;
+      color: var(--text);
+    }
+    .subject-item:last-child { border-bottom: none; }
+
+    .subject-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(212,175,55,.1);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .subject-icon svg { width: 16px; height: 16px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+
+    /* ── DOCUMENTS ───────────────────────────────────── */
+    .documents { background: var(--navy); }
+
+    .docs-intro {
+      max-width: 600px;
+      margin-bottom: 4rem;
+    }
+    .docs-intro p { color: var(--muted); font-size: .95rem; }
+
+    .doc-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      max-width: 900px;
+    }
+
+    .doc-item {
+      background: var(--dark);
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      transition: background .2s;
+    }
+
+    .doc-item:hover { background: rgba(18,61,138,.35); }
+
+    .doc-icon {
+      width: 40px; height: 40px;
+      border-radius: 8px;
+      background: rgba(212,175,55,.1);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .doc-icon svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+
+    .doc-name { font-size: .9rem; color: var(--text); font-weight: 500; }
+    .doc-note { font-size: .77rem; color: var(--muted); margin-top: .1rem; }
+
+    .tc-notice {
+      margin-top: 2.5rem;
+      padding: 1.4rem 2rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: rgba(255,255,255,.025);
+      font-size: .88rem;
+      color: var(--muted);
+      max-width: 900px;
+    }
+    .tc-notice strong { color: var(--gold); }
+
+    /* ── WAYS TO APPLY ───────────────────────────────── */
+    .apply-ways { background: var(--dark); border-top: 1px solid var(--border); }
+
+    .ways-intro {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 4.5rem;
+    }
+    .ways-intro p { color: var(--muted); font-size: .96rem; }
+
+    .ways-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .way {
+      text-align: center;
+      padding: 3rem 2.5rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(255,255,255,.03);
+      position: relative;
+      transition: border-color .3s, background .3s;
+    }
+    .way:hover { border-color: rgba(212,175,55,.5); background: rgba(212,175,55,.04); }
+
+    .way-icon-wrap {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: rgba(212,175,55,.1);
+      border: 1px solid rgba(212,175,55,.3);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.6rem;
+    }
+    .way-icon-wrap svg { width: 26px; height: 26px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+
+    .way h3 {
+      font-family: 'Playfair Display', serif;
+      color: var(--white);
+      font-size: 1.3rem;
+      margin-bottom: .8rem;
+    }
+
+    .way p { color: var(--muted); font-size: .88rem; margin-bottom: 1.8rem; }
+
+    /* ── ONLINE FORM ─────────────────────────────────── */
+    .form-section { background: var(--navy); }
+
+    .form-wrap {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .form-intro {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+    .form-intro p { color: var(--muted); font-size: .95rem; }
+
+    .adm-form { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+
+    .field { display: flex; flex-direction: column; gap: .45rem; }
+
+    .field label {
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--white);
+      font-family: 'Poppins', sans-serif;
+      font-size: .9rem;
+      padding: .85rem 1.1rem;
+      transition: border-color .2s, background .2s;
+      outline: none;
+      width: 100%;
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder { color: rgba(255,255,255,.28); }
+    .field select option { background: var(--dark); color: var(--white); }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: rgba(212,175,55,.6);
+      background: rgba(255,255,255,.06);
+    }
+
+    .field textarea { resize: vertical; min-height: 100px; }
+
+    .form-footer { text-align: center; padding-top: 1rem; }
+    .form-footer p { font-size: .8rem; color: var(--muted); margin-top: 1rem; }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 3rem;
+      border: 1px solid rgba(212,175,55,.4);
+      border-radius: 12px;
+      background: rgba(212,175,55,.06);
+    }
+    .form-success.show { display: block; }
+    .form-success svg { stroke: var(--gold); width: 48px; height: 48px; fill: none; stroke-width: 1.5; margin-bottom: 1.2rem; }
+    .form-success h3 { font-family: 'Playfair Display', serif; color: var(--white); font-size: 1.4rem; margin-bottom: .6rem; }
+    .form-success p { color: var(--muted); font-size: .9rem; }
+
+    /* ── CONTACT STRIP ───────────────────────────────── */
+    .contact-strip {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      padding: 70px 0;
+    }
+
+    .contact-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .contact-text h2 {
+      font-family: 'Playfair Display', serif;
+      color: var(--white);
+      font-size: 1.8rem;
+      margin-bottom: .4rem;
+    }
+    .contact-text p { color: var(--muted); font-size: .9rem; }
+
+    .contact-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      color: var(--text);
+      text-decoration: none;
+      font-size: .9rem;
+      transition: color .2s;
+    }
+    .contact-link:hover { color: var(--gold); }
+
+    .contact-link svg {
+      width: 18px; height: 18px;
+      stroke: var(--gold); fill: none; stroke-width: 1.5;
+      flex-shrink: 0;
+    }
+
+    /* ── ANIMATIONS ─────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up { animation: fadeUp .6s ease both; }
+    .fade-up-2 { animation: fadeUp .6s ease .12s both; }
+    .fade-up-3 { animation: fadeUp .6s ease .24s both; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────── */
+    @media (max-width: 992px) {
+      .overview-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .overview-hours { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 2.5rem; }
+      .test-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .ways-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    @media (max-width: 768px) {
+      section { padding: 70px 0; }
+      .form-row { grid-template-columns: 1fr; }
+      .contact-inner { flex-direction: column; align-items: flex-start; }
+      .steps-list::before { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding: 90px 0 70px; }
+      .hero-actions { flex-direction: column; }
+      .btn-primary, .btn-outline { justify-content: center; }
+      .info-row { gap: 1.5rem; }
+    }
+  </style>
+  {%include "navbar.html"%}
+
+<!-- ═══════════════════════════════════ HERO ═══ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <span class="label fade-up">{{ admission_config.hero_eyebrow }}</span>
+      <h1 class="hero-title fade-up-2">
+        {{ admission_config.hero_heading | safe }}
+      </h1>
+      <p class="hero-sub fade-up-3">
+        {{ admission_config.hero_subheading }}
+      </p>
+      <div class="hero-actions fade-up-3">
+        <a href="#apply" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          Apply Online
+        </a>
+        <a href="#school_visit_u" class="btn-outline">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Visit School Office
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ OVERVIEW ═══ -->
+<section class="overview">
+  <div class="container">
+    <div class="overview-grid">
+      <div class="overview-text">
+        <span class="label">{{ admission_config.overview_eyebrow }}</span>
+        <h2 class="section-heading">{{ admission_config.overview_heading }}</h2>
+        <div class="gold-line"></div>
+        <p>
+          {{ admission_config.overview_p1 }}
+        </p>
+        <p>
+          {{ admission_config.overview_p2 }}
+        </p>
+        <div class="info-row">
+          
+          <div class="info-item">
+            <strong>{% if setting.admissions_open %}Open{% else %}Closed{% endif %}</strong>
+            <span>{{ admission_config.hero_eyebrow }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="overview-hours">
+        <span class="label">School Office</span>
+        <h3 class="section-heading" style="font-size:1.7rem;">{{ admission_config.visit_title }}</h3>
+        <div class="gold-line"></div>
+        <p style="color:var(--muted);font-size:.92rem;">{{ admission_config.visit_text }}</p>
+        <div class="hours-block">
+          <div class="days">{{ admission_config.office_days }}</div>
+          <div class="time">{{ admission_config.office_hours }}</div>
+        </div>
+        <p class="hours-note">{{ admission_config.office_note }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ PROCESS ═══ -->
+<section class="process" id="process">
+  <div class="container">
+    <div class="process-intro">
+      <span class="label">{{ admission_config.process_eyebrow }}</span>
+      <h2 class="section-heading">{{ admission_config.process_heading }}</h2>
+      <div class="gold-line center"></div>
+      <p>{{ admission_config.process_text }}</p>
+    </div>
+
+    <div class="steps-list">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>{{ admission_config.step1_title }}</h3>
+          <p>{{ admission_config.step1_text }}</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>{{ admission_config.step2_title }}</h3>
+          <p>{{ admission_config.step2_text }}</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>{{ admission_config.step3_title }}</h3>
+          <p>{{ admission_config.step3_text }}</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>{{ admission_config.step4_title }}</h3>
+          <p>{{ admission_config.step4_text }}</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h3>{{ admission_config.step5_title }}</h3>
+          <p>{{ admission_config.step5_text }}</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <h3>{{ admission_config.step6_title }}</h3>
+          <p>{{ admission_config.step6_text }}</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ TEST ═══ -->
+<section class="test-section">
+  <div class="container">
+    <div class="test-grid">
+      <div class="test-body">
+        <span class="label">Admission Test</span>
+        <h2 class="section-heading">{{ admission_config.test_heading }}</h2>
+        <div class="gold-line"></div>
+        <p>{{ admission_config.test_p1 }}</p>
+        <p>{{ admission_config.test_p2 }}</p>
+        <p>{{ admission_config.test_p3 }}</p>
+        <div class="note-box">
+          <p>{{ admission_config.test_note | safe }}</p>
+        </div>
+      </div>
+
+      <div class="test-subjects">
+        <h4>Core Areas of Assessment</h4>
+
+        {% for sub in subjects %}
+        <div class="subject-item">
+          <div class="subject-icon">
+            {% if sub.svg_icon == 'pencil' %}
+              <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg>
+            {% elif sub.svg_icon == 'chart' %}
+              <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            {% elif sub.svg_icon == 'globe' %}
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            {% elif sub.svg_icon == 'lightbulb' %}
+              <svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            {% elif sub.svg_icon == 'book' %}
+              <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+            {% elif sub.svg_icon == 'certificate' %}
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            {% elif sub.svg_icon == 'report_card' %}
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+            {% elif sub.svg_icon == 'transfer_cert' %}
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            {% elif sub.svg_icon == 'photograph' %}
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            {% elif sub.svg_icon == 'id_card' %}
+              <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            {% elif sub.svg_icon == 'user' %}
+              <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            {% elif sub.svg_icon == 'briefcase' %}
+              <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+            {% endif %}
+          </div>
+          {{ sub.title }}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ DOCUMENTS ═══ -->
+<section class="documents">
+  <div class="container">
+    <div class="docs-intro">
+      <span class="label">{{ admission_config.doc_eyebrow }}</span>
+      <h2 class="section-heading">{{ admission_config.doc_heading }}</h2>
+      <div class="gold-line"></div>
+      <p>{{ admission_config.doc_text }}</p>
+    </div>
+
+    <div class="doc-list">
+      {% for doc in documents %}
+      <div class="doc-item">
+        <div class="doc-icon">
+          {% if doc.svg_icon == 'pencil' %}
+            <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg>
+          {% elif doc.svg_icon == 'chart' %}
+            <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          {% elif doc.svg_icon == 'globe' %}
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+          {% elif doc.svg_icon == 'lightbulb' %}
+            <svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+          {% elif doc.svg_icon == 'book' %}
+            <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          {% elif doc.svg_icon == 'certificate' %}
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          {% elif doc.svg_icon == 'report_card' %}
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+          {% elif doc.svg_icon == 'transfer_cert' %}
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          {% elif doc.svg_icon == 'photograph' %}
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          {% elif doc.svg_icon == 'id_card' %}
+            <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          {% elif doc.svg_icon == 'user' %}
+            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          {% elif doc.svg_icon == 'briefcase' %}
+            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+          {% endif %}
+        </div>
+        <div>
+          <div class="doc-name">{{ doc.name }}</div>
+          <div class="doc-note">{{ doc.note }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="tc-notice">
+      <strong>{{ admission_config.tc_notice_heading }}</strong> {{ admission_config.tc_notice_text }}
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ TWO WAYS ═══ -->
+<section class="apply-ways" id="visit">
+  <div class="container">
+    <div class="ways-intro">
+      <span class="label">{{ admission_config.ways_eyebrow }}</span>
+      <h2 class="section-heading">{{ admission_config.ways_heading }}</h2>
+      <div class="gold-line center"></div>
+      <p>{{ admission_config.ways_text }}</p>
+    </div>
+
+    <div class="ways-grid">
+      <div class="way">
+        <div class="way-icon-wrap">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <h3>{{ admission_config.way1_title }}</h3>
+        {% if setting.admissions_open %}
+          <p>{{ admission_config.way1_text }}</p>
+          <a href="#apply" class="btn-primary">Fill Out the Form</a>
+        {% else %}
+          <p style="color: var(--gold); font-weight: 600; margin-bottom: 20px;">Online admissions are currently closed for the current academic session.</p>
+          <a href="javascript:void(0)" class="btn-primary" onclick="showClosedPopup()" style="opacity: 0.6; cursor: not-allowed; max-width: max-content; display: inline-block;">Admissions Closed</a>
+        {% endif %}
+      </div>
+
+      <div class="way" id="school_visit_u">
+        <div class="way-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <h3>{{ admission_config.way2_title }}</h3>
+        <p>{{ admission_config.way2_text }}</p>
+        <a href="#contact" class="btn-outline">View Office Hours</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ FORM ═══ -->
+<section class="form-section" id="apply">
+  <div class="container">
+    <div class="form-wrap">
+      <div class="form-intro">
+        <span class="label">{{ admission_config.form_eyebrow }}</span>
+        <h2 class="section-heading">{{ admission_config.form_heading }}</h2>
+        <div class="gold-line center"></div>
+        <p>{{ admission_config.form_text }}</p>
+      </div>
+
+      {% if setting.admissions_open %}
+      <div id="formSuccess" class="form-success">
+        <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <h3>Application Received</h3>
+        <p>Thank you for applying to Greenfield Academy. Our admissions team will review your details and contact you within 2 working days with guidance on the next steps.</p>
+      </div>
+
+      <div id="formContainer">
+        <div class="adm-form">
+          <div class="form-row">
+            <div class="field">
+              <label>Student's First Name</label>
+              <input type="text" id="firstName" placeholder="e.g. Aryan" />
+            </div>
+            <div class="field">
+              <label>Student's Last Name</label>
+              <input type="text" id="lastName" placeholder="e.g. Sharma" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label>Date of Birth</label>
+              <input type="date" id="dob" />
+            </div>
+            <div class="field">
+              <label>Class Applying For</label>
+              <select id="classApplying">
+                <option value="" disabled selected>Select class</option>
+                <option>Class I</option>
+                <option>Class II</option>
+                <option>Class III</option>
+                <option>Class IV</option>
+                <option>Class V</option>
+                <option>Class VI</option>
+                <option>Class VII</option>
+                <option>Class VIII</option>
+                <option>Class IX</option>
+                <option>Class X</option>
+                <option>Class XI</option>
+                <option>Class XII</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label>Parent / Guardian Name</label>
+              <input type="text" id="parentName" placeholder="Full name" />
+            </div>
+            <div class="field">
+              <label>Relationship to Student</label>
+              <select id="relationship">
+                <option value="" disabled selected>Select</option>
+                <option>Father</option>
+                <option>Mother</option>
+                <option>Guardian</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label>Contact Number</label>
+              <input type="tel" id="phone" placeholder="+91 00000 00000" />
+            </div>
+            <div class="field">
+              <label>Email Address</label>
+              <input type="email" id="email" placeholder="email@example.com" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Current / Previous School Name</label>
+            <input type="text" id="prevSchool" placeholder="Name of school (leave blank if not applicable)" />
+          </div>
+
+          <div class="field">
+            <label>Additional Message (Optional)</label>
+            <textarea id="message" placeholder="Any specific information or queries you would like to share with our admissions team…"></textarea>
+          </div>
+
+          <div class="form-footer">
+            <button class="btn-primary" onclick="handleSubmit()" style="width:100%;justify-content:center;font-size:.95rem;padding:1rem 2rem;">
+              Submit Application
+            </button>
+            <p>By submitting this form, you consent to our admissions team contacting you at the details provided above.</p>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div style="text-align: center; padding: 60px 20px; border: 1px dashed rgba(255,255,255,0.15); border-radius: 8px; background: rgba(255,255,255,0.02); max-width: 700px; margin: 40px auto 0;">
+        <div style="width: 64px; height: 64px; background: rgba(212,175,55,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; border: 1px solid rgba(212,175,55,0.2);">
+          <svg viewBox="0 0 24 24" style="width: 32px; height: 32px; stroke: var(--gold); fill: none; stroke-width: 1.5;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        </div>
+        <h3 style="font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--white); margin-bottom: 15px;">{{ setting.closed_message_heading }}</h3>
+        <p style="color: var(--muted); font-size: 1rem; line-height: 1.6; margin: 0 auto; max-width: 500px;">{{ setting.closed_message_body }}</p>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ CONTACT ═══ -->
+<section class="contact-strip" id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-text">
+        <span class="label">{{ admission_config.contact_label }}</span>
+        <h2>{{ admission_config.contact_title }}</h2>
+        <p>{{ admission_config.office_days }} &nbsp;|&nbsp; {{ admission_config.office_hours }}</p>
+      </div>
+      <div class="contact-links">
+        <a href="tel:{{ admission_config.contact_phone.replace(' ', '') }}" class="contact-link">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.13 1 .36 1.97.7 2.91a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.17-1.17a2 2 0 012.11-.45c.94.34 1.91.57 2.91.7A2 2 0 0122 16.92z"/></svg>
+          {{ admission_config.contact_phone }}
+        </a>
+        <a href="mailto:{{ admission_config.contact_email }}" class="contact-link">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          {{ admission_config.contact_email }}
+        </a>
+        <a href="{{ admission_config.contact_map_link }}" class="contact-link" {% if admission_config.contact_map_link != '#' %}target="_blank" rel="noopener noreferrer"{% endif %}>
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          {{ admission_config.contact_address }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function handleSubmit() {
+    const required = ['firstName','lastName','dob','classApplying','parentName','relationship','phone','email'];
+    let valid = true;
+
+    required.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (!el.value.trim()) {
+        el.style.borderColor = 'rgba(212,175,55,.8)';
+        valid = false;
+      } else {
+        el.style.borderColor = '';
+      }
+    });
+
+    if (!valid) {
+      // Scroll to first empty
+      const first = required.find(id => {
+        const el = document.getElementById(id);
+        return el && !el.value.trim();
+      });
+      if (first) {
+        document.getElementById(first).scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return;
+    }
+
+    const submitBtn = document.querySelector('.form-footer button');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+    }
+
+    // Build Form Data
+    const formData = new FormData();
+    formData.append('firstName', document.getElementById('firstName').value.trim());
+    formData.append('lastName', document.getElementById('lastName').value.trim());
+    formData.append('dob', document.getElementById('dob').value.trim());
+    formData.append('classApplying', document.getElementById('classApplying').value.trim());
+    formData.append('parentName', document.getElementById('parentName').value.trim());
+    formData.append('relationship', document.getElementById('relationship').value.trim());
+    formData.append('phone', document.getElementById('phone').value.trim());
+    formData.append('email', document.getElementById('email').value.trim());
+    formData.append('prevSchool', document.getElementById('prevSchool').value.trim());
+    if (document.getElementById('message')) {
+      formData.append('message', document.getElementById('message').value.trim());
+    }
+
+    fetch('/admission', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        document.getElementById('formContainer').style.display = 'none';
+        const success = document.getElementById('formSuccess');
+        success.classList.add('show');
+        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        alert(data.error || 'An error occurred during submission. Please try again.');
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit Application';
+        }
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('A network error occurred. Please check your connection and try again.');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Application';
+      }
+    });
+  }
+</script>
+
+<!-- Admissions Closed Modal Popup -->
+{% if not setting.admissions_open %}
+<div id="admissionClosedModal" class="modal-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 12, 22, 0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 10000; opacity: 0; display: none; transition: opacity 0.3s ease;">
+  <div class="modal-content" style="background: var(--navy); border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; width: 90%; max-width: 500px; padding: 40px 30px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; transform: scale(0.9); transition: transform 0.3s ease, opacity 0.3s ease;">
+    <button class="close-btn" onclick="closeClosedPopup()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 2rem; color: var(--gold); cursor: pointer; line-height: 1;">&times;</button>
+    <div style="width: 60px; height: 60px; background: rgba(212,175,55,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; border: 1px solid rgba(212,175,55,0.2);">
+      <svg viewBox="0 0 24 24" style="width: 32px; height: 32px; stroke: var(--gold); fill: none; stroke-width: 1.5;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+    </div>
+    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--white); margin-bottom: 15px;">{{ setting.closed_message_heading }}</h3>
+    <p style="color: var(--muted); font-size: 1rem; line-height: 1.6; margin-bottom: 25px;">{{ setting.closed_message_body }}</p>
+    <button class="btn-primary" onclick="closeClosedPopup()" style="display: inline-block; padding: 10px 30px; width: auto; font-size: 0.9rem; justify-content: center;">Close</button>
+  </div>
+</div>
+<script>
+  function showClosedPopup() {
+    const modal = document.getElementById('admissionClosedModal');
+    if (modal) {
+      modal.style.display = 'flex';
+      setTimeout(() => {
+        modal.style.opacity = '1';
+        modal.querySelector('.modal-content').style.transform = 'scale(1)';
+      }, 10);
+    }
+  }
+  function closeClosedPopup() {
+    const modal = document.getElementById('admissionClosedModal');
+    if (modal) {
+      modal.style.opacity = '0';
+      modal.querySelector('.modal-content').style.transform = 'scale(0.9)';
+      setTimeout(() => { modal.style.display = 'none'; }, 300);
+    }
+  }
+  // Auto-show on page load if closed
+  window.addEventListener('DOMContentLoaded', () => {
+    showClosedPopup();
+  });
+</script>
+{% endif %}
+{%include "footer.html"%}
+</body>
+</html>

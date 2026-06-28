@@ -1,0 +1,571 @@
+{%include "boilerplate.html"%}
+
+    <style>
+        /* CSS Variables - Master DNA */
+        :root {
+            --navy: #081F4D;
+            --dark: #04142E;
+            --royal: #123D8A;
+            --gold: #D4AF37;
+            --light-gold: #FFF0A6;
+            --white: #FFFFFF;
+            --text: rgba(255, 255, 255, 0.82);
+            --muted: rgba(255, 255, 255, 0.65);
+            --border-gold: rgba(212, 175, 55, 0.25);
+        }
+
+        /* Base Styles */
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--navy);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Section Formatting */
+        section {
+            padding: 100px 0;
+        }
+
+        .bg-dark {
+            background-color: var(--dark);
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-heading {
+            font-size: 2.5rem;
+            margin-top: 0;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+
+        @media (min-width: 992px) {
+            .section-heading {
+                font-size: 3.5rem;
+            }
+        }
+
+        /* Layout Grids */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        @media (min-width: 992px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 992px) {
+            .grid-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Card System */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-gold);
+            border-radius: 20px;
+            padding: 40px 30px;
+            transition: 0.35s ease;
+            backdrop-filter: blur(12px);
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            color: var(--light-gold);
+        }
+
+        .card-icon {
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background-color: var(--gold);
+            color: var(--navy);
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            border: 1px solid var(--gold);
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--gold);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 160px 0 120px;
+            text-align: center;
+            background: linear-gradient(rgba(4, 20, 46, 0.85), rgba(8, 31, 77, 0.95)), url('{{ url_for('static', filename='images/' + config.overview_img_url) if (config.overview_img_url and not config.overview_img_url.startswith('http') and not config.overview_img_url.startswith('/')) else (config.overview_img_url if config.overview_img_url else url_for('static', filename='images/building1.jpg')) }}') center/cover no-repeat;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+        }
+
+        @media (min-width: 992px) {
+            .hero h1 {
+                font-size: 4.5rem;
+            }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text);
+        }
+
+        /* Images */
+        .img-wrapper img {
+            width: 100%;
+            border-radius: 20px;
+            border: 1px solid var(--border-gold);
+            display: block;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        /* Dynamic Image Orientation Handling */
+        .img-portrait-padded {
+            background-color: var(--dark);
+            border-radius: 20px;
+            border: 1px solid var(--border-gold);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 4 / 3;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .img-portrait-padded img {
+            width: auto;
+            height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        /* Lists */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .feature-list li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .feature-list li::before {
+            content: "✦";
+            color: var(--gold);
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.1rem;
+        }
+
+        .temp-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            color: var(--muted);
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Toppers Section Styles */
+        .toppers-scroll-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 50px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 20px 10px;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold) rgba(255, 255, 255, 0.05);
+        }
+
+        /* Webkit scrollbar customization for a premium look */
+        .toppers-scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .toppers-scroll-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .toppers-scroll-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(90deg, var(--gold), var(--light-gold));
+            border-radius: 10px;
+        }
+
+        .toppers-scroll-container::-webkit-scrollbar-thumb:hover {
+            background: var(--light-gold);
+        }
+
+        .topper-banner-card {
+            flex: 0 0 100%;
+            background: linear-gradient(135deg, rgba(8, 31, 77, 0.6) 0%, rgba(4, 20, 46, 0.8) 100%);
+            border: 1px solid var(--border-gold);
+            border-radius: 24px;
+            padding: 35px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            scroll-snap-align: center;
+            box-sizing: border-box;
+        }
+
+        @media (min-width: 992px) {
+            .topper-banner-card {
+                flex: 0 0 900px;
+            }
+            .toppers-scroll-container {
+                justify-content: flex-start;
+                padding-left: calc((100% - 900px) / 2);
+                padding-right: calc((100% - 900px) / 2);
+            }
+        }
+
+        .topper-banner-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--light-gold), var(--gold));
+            opacity: 0.8;
+        }
+
+        .topper-banner-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(212, 175, 55, 0.15);
+            border-color: var(--light-gold);
+        }
+
+        .topper-banner-header {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            padding-bottom: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .topper-banner-header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        .topper-banner-title {
+            font-size: 2rem;
+            margin: 0;
+            color: var(--white);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .topper-banner-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topper-banner-badge {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gold);
+            color: var(--light-gold);
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .topper-banner-desc {
+            font-size: 1.05rem;
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .topper-banner-frame {
+            border-radius: 16px;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            overflow: hidden;
+            background: #020b18;
+            position: relative;
+            aspect-ratio: 16 / 9;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        @media (min-width: 768px) {
+            .topper-banner-frame {
+                aspect-ratio: 21 / 9;
+            }
+        }
+
+        .topper-banner-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: #020b18;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .topper-banner-frame:hover img {
+            transform: scale(1.08);
+        }
+
+        .topper-zoom-hint {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(4, 20, 46, 0.8);
+            color: var(--light-gold);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .topper-banner-frame:hover .topper-zoom-hint {
+            opacity: 0;
+        }
+    </style>
+    {%include "navbar.html"%}
+
+    <section class="hero">
+        <div class="container">
+            <span class="section-label">{{ config.hero_label }}</span>
+            <h1>{{ config.hero_title }}</h1>
+            <p>{{ config.hero_subtitle }}</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="grid-2">
+                <div>
+                    <span class="section-label">{{ config.overview_label }}</span>
+                    <h2 class="section-heading">{{ config.overview_title }}</h2>
+                    <p>{{ config.overview_p1 }}</p>
+                    <p>{{ config.overview_p2 }}</p>
+                </div>
+                <div class="{% if config.overview_img_is_portrait %}img-portrait-padded{% else %}img-wrapper{% endif %}">
+                    <img src="{{ url_for('static', filename='images/' + config.overview_img_url) if (config.overview_img_url and not config.overview_img_url.startswith('http') and not config.overview_img_url.startswith('/')) else config.overview_img_url }}" alt="Overview Image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-dark">
+        <div class="container">
+            <span class="section-label text-center">Curriculum</span>
+            <h2 class="section-heading text-center" style="text-align: center;">Curriculum Structure</h2>
+            
+            <div class="grid-4" style="margin-top: 50px;">
+                {% for card in curriculum_cards %}
+                <div class="card">
+                    <div class="card-icon">
+                        {{ card.icon_svg | safe }}
+                    </div>
+                    <h3>{{ card.title }}</h3>
+                    <p style="font-size: 0.9rem; color: var(--gold);">{{ card.classes_range }}</p>
+                    <p>{{ card.description }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section style="background: linear-gradient(rgba(8, 31, 77, 0.2), rgba(4, 20, 46, 0.4)); position: relative;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <span class="section-label">Academic Champions</span>
+                <h2 class="section-heading">Our Board & School Toppers</h2>
+                <p style="max-width: 600px; margin: 0 auto; color: var(--muted);">Celebrating the outstanding academic performances of our Class X & XI scholars who have set milestones of excellence.</p>
+            </div>
+            
+            <div class="toppers-scroll-container">
+                {% for topper in toppers %}
+                <div class="topper-banner-card">
+                    <div class="topper-banner-header">
+                        <h3 class="topper-banner-title">{{ topper.title }}</h3>
+                        <div class="topper-banner-meta">
+                            <span class="topper-banner-badge">{{ topper.class_name }}</span>
+                            <span class="topper-banner-badge" style="border-color: rgba(255,255,255,0.2); color: var(--white);">{{ topper.year }}</span>
+                        </div>
+                    </div>
+                    
+                    {% if topper.description %}
+                    <p class="topper-banner-desc">{{ topper.description }}</p>
+                    {% endif %}
+                    
+                    <div class="topper-banner-frame">
+                        <img src="{{ url_for('static', filename='images/' + topper.image_url) if (topper.image_url and not topper.image_url.startswith('http') and not topper.image_url.startswith('/')) else topper.image_url }}" alt="{{ topper.title }}">
+                        <div class="topper-zoom-hint">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                <line x1="11" y1="8" x2="11" y2="14"></line>
+                                <line x1="8" y1="11" x2="14" y2="11"></line>
+                            </svg>
+                            Hover to Zoom
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="grid-2">
+                <div class="{% if config.methodology_img_is_portrait %}img-portrait-padded{% else %}img-wrapper{% endif %}">
+                    <img src="{{ url_for('static', filename='images/' + config.methodology_img_url) if (config.methodology_img_url and not config.methodology_img_url.startswith('http') and not config.methodology_img_url.startswith('/')) else config.methodology_img_url }}" alt="Methodology Image">
+                </div>
+                <div>
+                    <span class="section-label">{{ config.methodology_label }}</span>
+                    <h2 class="section-heading">{{ config.methodology_title }}</h2>
+                    <p>{{ config.methodology_description }}</p>
+                    
+                    <div style="margin-top: 30px;">
+                        <ul class="feature-list">
+                            {% if config.methodology_item1 %}<li>{{ config.methodology_item1 }}</li>{% endif %}
+                            {% if config.methodology_item2 %}<li>{{ config.methodology_item2 }}</li>{% endif %}
+                            {% if config.methodology_item3 %}<li>{{ config.methodology_item3 }}</li>{% endif %}
+                            {% if config.methodology_item4 %}<li>{{ config.methodology_item4 }}</li>{% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-dark">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <span class="section-label">At a Glance</span>
+                <h2 class="section-heading">Academic Milestones</h2>
+               
+            
+            <div class="grid-4 text-center" style="text-align: center;">
+                <div class="card">
+                    <h2 style="color: var(--gold); font-size: 3rem; margin: 0;">{{ config.stat1_num }}</h2>
+                    <p style="margin: 0; font-weight: 500;">{{ config.stat1_label }}</p>
+                </div>
+                <div class="card">
+                    <h2 style="color: var(--gold); font-size: 3rem; margin: 0;">{{ config.stat2_num }}</h2>
+                    <p style="margin: 0; font-weight: 500;">{{ config.stat2_label }}</p>
+                </div>
+                <div class="card">
+                    <h2 style="color: var(--gold); font-size: 3rem; margin: 0;">{{ config.stat3_num }}</h2>
+                    <p style="margin: 0; font-weight: 500;">{{ config.stat3_label }}</p>
+                </div>
+                <div class="card">
+                    <h2 style="color: var(--gold); font-size: 3rem; margin: 0;">{{ config.stat4_num }}</h2>
+                    <p style="margin: 0; font-weight: 500;">{{ config.stat4_label }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="text-align: center;">
+        <div class="container" style="max-width: 800px;">
+            <span class="section-label">{{ config.cta_label }}</span>
+            <h2 class="section-heading">{{ config.cta_title }}</h2>
+            <p style="margin-bottom: 40px; font-size: 1.1rem;">{{ config.cta_text }}</p>
+            <a href="{{url_for('admission_page')}}" class="btn">{{ config.cta_btn_text }}</a>
+        </div>
+    </section>
+    {%include "footer.html"%}
+</body>
+</html>

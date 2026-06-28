@@ -1,0 +1,514 @@
+{%include "boilerplate.html"%}
+<link rel="stylesheet" href="{{url_for('static', filename='css/main.css' )}}">
+
+    <style>
+        .birthday-section {
+            padding: 100px 0;
+            background: linear-gradient(180deg, #04142E 0%, #081F4D 100%);
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .birthday-scroll-container {
+            display: flex;
+            gap: 25px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 30px 10px;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold, #D4AF37) rgba(255, 255, 255, 0.05);
+        }
+
+        /* Webkit scrollbar styling */
+        .birthday-scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .birthday-scroll-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .birthday-scroll-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(90deg, var(--gold, #D4AF37), var(--light-gold, #FFF0A6));
+            border-radius: 10px;
+        }
+
+        .birthday-card {
+            flex: 0 0 270px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 24px;
+            padding: 35px 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            scroll-snap-align: start;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .birthday-card::after {
+            content: '🎂';
+            position: absolute;
+            font-size: 5rem;
+            opacity: 0.03;
+            bottom: -15px;
+            right: -10px;
+            pointer-events: none;
+            transition: transform 0.6s ease;
+        }
+
+        .birthday-card:hover::after {
+            transform: scale(1.3) rotate(-15deg);
+        }
+
+        .birthday-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--gold, #D4AF37);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.12);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .birthday-photo-wrap {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            position: relative;
+            padding: 5px;
+            background: linear-gradient(135deg, var(--gold, #D4AF37), rgba(212, 175, 55, 0.1), var(--light-gold, #FFF0A6));
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .birthday-photo-wrap img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #04142E;
+            background-color: #081F4D;
+        }
+
+        .birthday-hat-badge {
+            position: absolute;
+            top: -10px;
+            right: -6px;
+            font-size: 1.6rem;
+            animation: bounce-rotate 3s infinite ease-in-out;
+        }
+
+        @keyframes bounce-rotate {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-5px) rotate(15deg); }
+        }
+
+        .birthday-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #FFFFFF;
+            margin: 5px 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .birthday-role-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 3px 12px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .birthday-role-badge.teacher {
+            background: rgba(212, 175, 55, 0.15);
+            color: #FFF0A6;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .birthday-role-badge.student {
+            background: rgba(18, 61, 138, 0.2);
+            color: #7BB2FF;
+            border: 1px solid rgba(18, 61, 138, 0.4);
+        }
+
+        .birthday-class {
+            font-size: 0.88rem;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 15px;
+        }
+
+        .birthday-date-pill {
+            margin-top: auto;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #FFF0A6;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+    </style>
+
+{%include "navbar.html"%}
+
+
+
+  <!-- ── MAIN CONTENT ── --> 
+  <main id="home">
+  <!--top bg image-->
+  <section class="bgimage">
+    <div class="blur">  
+    <div class="text-image">
+      <div class="upper-text">
+    <h2 class="top-text" id="top-heading">
+      {{ hero.heading }}
+    </h2>
+    <h1 class="top-p" id="top-desc">
+      {{ hero.subheading }}
+    </h1>
+    <a class="enroll-button" id="enroll-button" text-decoration="none" href="{{url_for('admission_page')}}">{{ hero.button_text }}</a></div>
+    <hr color="white">
+    <p class="bottom-desc">
+      {{ hero.description }}
+    </p> </div></div>
+
+  </section>
+  <section2 class="desk-section">
+    <div class="parent-container">
+      {% for card in principal_cards %}
+      <div id="principal-message-{{ card.card_id }}" class="{{ 'card1' if card.card_id == 'card1' else 'card2' }}">
+        <div class="principal-card">
+
+            <div class="heading">
+                <span class="mini-title">{{ card.title }}</span>
+                <h2>{{ card.subtitle }}</h2>
+            </div>
+
+            <div class="ribbon"></div>
+
+            <div class="profile-container">
+                <img src="{{ url_for('static', filename='images/' + card.image_url) if (card.image_url and (card.image_url.startswith('images/') or '/' in card.image_url)) else url_for('static', filename='images/principal.jpg') }}" alt="Principal">
+            </div>
+
+            <div class="message" id="principal-message">
+
+                <h3>{{ card.message_heading }}</h3>
+
+                <p>
+                    {{ card.message_p1 }}
+                </p>
+
+                <p>
+                    {{ card.message_p2 }}
+                </p>
+
+            </div>
+
+            <div class="signature">
+
+                <div class="line"></div>
+
+                <h4>{{ card.signature_name }}</h4>
+                <span>{{ card.signature_role }}</span>
+
+            </div>
+      </div>
+    </div>
+      {% endfor %}
+  </div>
+
+  </section2>
+  <section3>
+    <section class="facilities-section">
+
+    <div class="section-header">
+        <span>OUR STRENGTHS</span>
+        <h2>Facilities We Provide</h2>
+        <p>
+            Empowering students with modern infrastructure,
+            innovative learning environments and comprehensive support.
+        </p>
+    </div>
+
+    <div class="facilities-grid">
+      {% for facility in facilities %}
+        <div class="facility-card">
+            <div class="icon">
+                {{ facility.icon }}
+            </div>
+
+            <h3>{{ facility.title }}</h3>
+
+            <p>
+                {{ facility.description }}
+            </p>
+
+            <a href="{{ facility.link }}">Explore</a>
+        </div>
+      {% endfor %}
+    </div>
+
+</section>
+  </section3>
+  <section4>
+    <section id="vision"   class="vision-section">
+
+    <div class="vision-decoration left"></div>
+    <div class="vision-decoration right"></div>
+
+    <div class="vision-container">
+
+        <span class="section-label">
+            {{ vision.label }}
+        </span>
+
+        <h2>
+            {{ vision.heading }}
+        </h2>
+
+        <div class="divider">
+            <span></span>
+            <i></i>
+            <span></span>
+        </div>
+
+        <div class="vision-icon">
+
+            <!-- Graduation Cap SVG -->
+            <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 3L2 8L12 13L22 8L12 3Z"/>
+                <path d="M5 10V15C5 17.5 8 19 12 19C16 19 19 17.5 19 15V10"/>
+            </svg>
+
+        </div>
+
+        <p>
+            {{ vision.p1 }}
+        </p>
+
+        <p>
+            {{ vision.p2 }}
+        </p>
+
+        <p>
+            {{ vision.p3 }}
+        </p>
+
+    </div>
+
+</section>
+  </section4>
+  <section5>
+    <section class="values-section">
+
+    <div class="section-header">
+
+        <span class="section-label">
+            OUR VALUES
+        </span>
+
+        <h2>
+            Values That Define Us
+        </h2>
+
+        <p>
+            At our institution, education extends beyond academics. We cultivate
+            integrity, excellence, leadership, and respect, empowering students
+            to become confident individuals and responsible citizens.
+        </p>
+
+    </div>
+
+    {% for card in value_cards %}
+    <div class="value-card {{ 'reverse' if loop.index0 % 2 == 1 else '' }}">
+
+        <div class="value-image">
+            <img src="{{ url_for('static', filename=card.image_url) if (card.image_url and card.image_url.startswith('images/')) else url_for('static', filename='images/' + card.image_url) if card.image_url else url_for('static', filename='images/logo.png') }}" alt="{{ card.title }}">
+        </div>
+
+        <div class="value-content">
+
+            <span class="value-number">{{ card.number if card.number else "%02d" | format(loop.index) }}</span>
+
+            <h3>{{ card.title }}</h3>
+
+            <p>
+                {{ card.description }}
+            </p>
+
+        </div>
+
+    </div>
+    {% endfor %}
+
+</section>
+  </section5>
+
+  <!-- ── BIRTHDAYS SECTION ── -->
+  <section class="birthday-section">
+    <div class="parent-container" style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+      <div class="section-header" style="text-align: center; margin-bottom: 30px;">
+        <span class="section-label">CELEBRATIONS</span>
+        <h2>🎂 Birthdays of the Month</h2>
+        <p>Join us in wishing our amazing students and dedicated teachers a very Happy Birthday!</p>
+      </div>
+
+      <div class="birthday-scroll-container">
+        {% for person in birthdays %}
+        <div class="birthday-card">
+          <div class="birthday-photo-wrap">
+            <img src="{{ url_for('static', filename='images/' + person.image_url) if person.image_url else url_for('static', filename='images/logo.png') }}" alt="{{ person.name }}">
+            <span class="birthday-hat-badge" role="img" aria-label="Birthday Hat">🥳</span>
+          </div>
+          
+          <span class="birthday-role-badge {{ person.role.lower() }}">
+            {{ person.role }}
+          </span>
+
+          <h3 class="birthday-name">{{ person.name }}</h3>
+          
+          <p class="birthday-class">{{ person.class_name if person.class_name else '' }}</p>
+          
+          <div class="birthday-date-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--gold, #D4AF37);">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            {{ person.birthday }}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EVENTS & NOTICES GLIMPSE ── -->
+  <section6>
+    <section class="updates-glimpse-section">
+      <div class="wrap">
+        <div class="section-header">
+          <span class="section-label">STAY UPDATED</span>
+          <h2>News & Announcements</h2>
+          <div class="divider">
+            <span></span>
+            <i></i>
+            <span></span>
+          </div>
+          <p class="section-subtitle">
+            Keep up with the latest academic announcements, notices, and vibrant campus life events at St Xavier's High School.
+          </p>
+        </div>
+
+        <div class="updates-grid">
+          <!-- Notices Column -->
+          <div class="updates-column notices-col">
+            <div class="column-header">
+              <h3>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 8px;">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                Latest Notices
+              </h3>
+            </div>
+            <div class="notices-list">
+              {% for notice in notices %}
+                <div class="glimpse-notice-card">
+                  <div class="notice-meta">
+                    <span class="notice-badge">{{ notice.category }}</span>
+                    <span class="notice-date">{{ notice.date }}</span>
+                  </div>
+                  <h4>{{ notice.title }}</h4>
+                  <p class="notice-target">📋 For: {{ notice.target }}</p>
+                  <p class="notice-excerpt">{{ notice.content[:120] }}{% if notice.content|length > 120 %}...{% endif %}</p>
+                </div>
+              {% else %}
+                <div class="empty-glimpse">
+                  <p>No notices published recently.</p>
+                </div>
+              {% endfor %}
+            </div>
+            <div class="action-btn-wrap">
+              <a href="{{ url_for('events_and_notices') }}" class="btn-glimpse">View All Notices</a>
+            </div>
+          </div>
+
+          <!-- Events Column -->
+          <div class="updates-column events-col">
+            <div class="column-header">
+              <h3>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 8px;">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Latest Event
+              </h3>
+            </div>
+            {% if latest_event %}
+              <div class="glimpse-event-card">
+                <div class="event-image-wrap">
+                  <span class="event-badge-latest">Latest Event</span>
+                  {% if latest_event.image1_url %}
+                    {% if latest_event.image1_url.startswith('http') or latest_event.image1_url.startswith('/') %}
+                      <img src="{{ latest_event.image1_url }}" alt="{{ latest_event.title }}">
+                    {% else %}
+                      <img src="{{ url_for('static', filename='images/' + latest_event.image1_url) }}" alt="{{ latest_event.title }}">
+                    {% endif %}
+                  {% else %}
+                    <img src="{{ url_for('static', filename='images/placeholder.jpg') }}" alt="Event image">
+                  {% endif %}
+                </div>
+                <div class="event-details">
+                  <span class="event-date">📅 {{ latest_event.date }}</span>
+                  <h4>{{ latest_event.title }}</h4>
+                  <p class="event-excerpt">{{ latest_event.description[:180] }}{% if latest_event.description|length > 180 %}...{% endif %}</p>
+                  {% if latest_event.tags %}
+                    <div class="event-tags">
+                      {% for tag in latest_event.tags.split(',')[:2] %}
+                        <span class="event-tag">{{ tag.strip() }}</span>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            {% else %}
+              <div class="empty-glimpse">
+                <p>No events listed recently.</p>
+              </div>
+            {% endif %}
+            <div class="action-btn-wrap">
+              <a href="{{ url_for('events_and_notices') }}" class="btn-glimpse">View All Events</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section6>
+
+  </main>
+  {%include "footer.html"%}
+
+</body>
+</html>
