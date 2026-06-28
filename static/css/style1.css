@@ -392,19 +392,7 @@ nav {
 /* Topbar: stack on small screens */
 @media (max-width: 600px) {
   .topbar{ display: none;}
-  .topbar-inner {
-    justify-content: center;
-    text-align: center;
-    gap: 4px;
-  }
-  .topbar-left {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .topbar-right {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+  
 
   .logo-name { font-size: .95rem; }
   .logo-tagline { font-size: .6rem; }
