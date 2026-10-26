@@ -14,9 +14,9 @@ if os.path.exists(credentials_path):
                 val = val.strip().strip('"').strip("'")
                 os.environ[key.strip()] = val
 
-email = os.environ.get("SMTP_EMAIL", "pratap.vijay.singh.in@gmail.com")
-reciever = os.environ.get("SMTP_RECEIVER", "goforsomethingelse@gmail.com")
-app_pass = os.environ.get("SMTP_APP_PASSWORD", "sjipipaepuuqzmzd")
+email = os.environ.get("SMTP_EMAIL")
+reciever = os.environ.get("SMTP_RECEIVER")
+app_pass = os.environ.get("SMTP_APP_PASSWORD")
 
 
 def contact_query_fetcher():
